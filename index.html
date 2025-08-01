@@ -42,6 +42,11 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .activities-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -57,18 +62,34 @@
         <!-- API Key Section -->
         <section class="mb-16 bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
             <h2 class="text-2xl font-bold text-gray-800 mb-3">Configuración de la IA de Gemini</h2>
-            <p class="text-gray-600 mb-4">Para usar el generador de actividades, necesitas una API Key de Google. Es gratis y fácil de obtener.</p>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <p class="text-gray-600 mb-4">Para que el generador de actividades funcione, solo necesitas configurar tu clave API de Google una vez. Se guardará en tu navegador para futuros usos.</p>
+            <div class="space-y-4">
                 <div class="flex-grow">
                     <label for="api-key-input" class="block text-sm font-medium text-gray-700 mb-1">Tu API Key de Google AI</label>
-                    <input type="password" id="api-key-input" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Pega tu clave aquí">
+                    <div class="flex items-center gap-2">
+                         <input type="password" id="api-key-input" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Pega tu clave aquí">
+                         <button id="toggle-visibility" class="p-2 text-gray-500 hover:text-gray-700">
+                            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                             <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.11 3.563-5.534 6.852-6.393M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.589 17.589A10.012 10.012 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.11 3.563-5.534 6.852-6.393m7.164 1.562A10.05 10.05 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.05 10.05 0 01-1.318 3.975m-1.42 1.42A3.004 3.004 0 0015 12a3 3 0 00-3-3m-3.875-.125A10.012 10.012 0 0012 5" />
+                             </svg>
+                         </button>
+                    </div>
                 </div>
-                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="mt-2 sm:mt-6 whitespace-nowrap inline-block bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
-                    Obtener Clave
-                </a>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="whitespace-nowrap inline-block bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                        Obtener Clave Gratuita
+                    </a>
+                    <button id="save-key" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors text-sm">Guardar Clave</button>
+                    <button id="delete-key" class="text-red-500 hover:text-red-700 font-semibold text-sm">Borrar Clave Guardada</button>
+                </div>
+                 <p id="status-message" class="text-sm text-green-600 h-4"></p>
             </div>
         </section>
-
 
         <!-- Sección de Base -->
         <section class="mb-20">
@@ -101,51 +122,9 @@
         <section>
             <h2 class="text-3xl font-bold text-center mb-12">Nuestra Hoja de Ruta: ¿Qué Vamos a Aprender Juntos?</h2>
             
-            <div class="relative max-w-2xl mx-auto">
+            <div class="relative max-w-2xl mx-auto" id="courses-container">
                 <div class="border-l-4 border-blue-500 absolute h-full top-0 left-[-15px]"></div>
-                
-                <!-- Curso 7 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Conecta y comparte tu creatividad">Curso 7: Conecta y comparte tu creatividad</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Aprenderemos a crear y compartir nuestro propio contenido (fotos, vídeos) en redes sociales y WhatsApp.">Aprenderemos a crear y compartir nuestro propio contenido (fotos, vídeos) en redes sociales y WhatsApp.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
-                <!-- Curso 8 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Descubre y consume contenido de calidad">Curso 8: Descubre y consume contenido de calidad</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.">Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
-                <!-- Curso 9 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Bienestar digital y consumo consciente">Curso 9: Bienestar digital y consumo consciente</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.">Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el "odio" en redes para una experiencia positiva.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
-                <!-- Curso 10 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Domina el arte de las presentaciones">Curso 10: Domina el arte de las presentaciones</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.">Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
-                <!-- Curso 11 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Innova y protege con la IA">Curso 11: Innova y protege con la IA</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.">Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
-                <!-- Curso 12 -->
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600" data-course-title="Impulsa tu identidad digital">Curso 12: Impulsa tu identidad digital</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md" data-course-description="Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.">Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.</p>
-                    <button class="gemini-trigger mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">Generar Actividad Práctica ✨</button>
-                </div>
-
+                <!-- Cursos se insertarán aquí por JS -->
             </div>
         </section>
 
@@ -155,10 +134,10 @@
     <div id="gemini-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
         <div id="gemini-modal" class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 transform scale-95 opacity-0">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
-                <h3 id="modal-title" class="text-xl font-bold text-gray-800">Idea de Actividad Práctica ✨</h3>
+                <h3 id="modal-title" class="text-xl font-bold text-gray-800">Guía de la Actividad ✨</h3>
                 <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
-            <div id="modal-content" class="min-h-[150px]">
+            <div id="modal-content" class="min-h-[150px] max-h-[60vh] overflow-y-auto">
                 <div id="loader-container" class="flex items-center justify-center h-full">
                     <div class="loader"></div>
                 </div>
@@ -168,14 +147,159 @@
     </div>
 
     <script>
+        const coursesData = [
+            {
+                courseNumber: 7,
+                title: "Conecta y comparte tu creatividad",
+                description: "Aprenderemos a crear y compartir nuestro propio contenido (fotos, vídeos) en redes sociales y WhatsApp.",
+                activities: [
+                    { level: "Nivel 1: Explorador", title: "El Primer Vistazo", description: "Una actividad para observar y familiarizarse sin necesidad de interactuar." },
+                    { level: "Nivel 2: Interactivo", title: "El Primer 'Me Gusta'", description: "Aprenderemos a realizar la interacción más básica y segura." },
+                    { level: "Nivel 3: Creador", title: "Tu Primera Foto", description: "Nos atreveremos a crear y compartir nuestro primer contenido simple." },
+                    { level: "Nivel 4: Conector", title: "El Primer Comentario", description: "Daremos el paso de conectar con otros a través de un comentario positivo." }
+                ]
+            },
+            {
+                courseNumber: 8,
+                title: "Descubre y consume contenido de calidad",
+                description: "Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.",
+                activities: [
+                    { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro", description: "Buscaremos perfiles sobre un tema que nos guste (ej. cocina, jardinería)." },
+                    { level: "Nivel 2: Interactivo", title: "Guardar para Después", description: "Aprenderemos a usar la función de 'Guardar' o 'Ver más tarde'." },
+                    { level: "Nivel 3: Creador", title: "Mi Lista de Intereses", description: "Crearemos una lista simple de 3 canales o perfiles que nos han gustado." },
+                    { level: "Nivel 4: Conector", title: "Compartir un Descubrimiento", description: "Enviaremos un enlace de un vídeo o perfil a un compañero por WhatsApp." }
+                ]
+            },
+            {
+                courseNumber: 9,
+                title: "Bienestar digital y consumo consciente",
+                description: "Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.",
+                activities: [
+                    { level: "Nivel 1: Explorador", title: "Identifica tus Emociones", description: "Veremos distintos tipos de comentarios y hablaremos de cómo nos hacen sentir." },
+                    { level: "Nivel 2: Interactivo", title: "El Botón de Silenciar", description: "Aprenderemos a silenciar notificaciones o perfiles para tener más tranquilidad." },
+                    { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", description: "Escribiremos un comentario amable y positivo para dejar en una publicación." },
+                    { level: "Nivel 4: Conector", title: "Pacto de Desconexión", description: "Haremos un pequeño pacto en grupo para no usar el móvil durante un rato." }
+                ]
+            },
+            {
+                courseNumber: 10,
+                title: "Domina el arte de las presentaciones",
+                description: "Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.",
+                 activities: [
+                    { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", description: "Veremos ejemplos de diapositivas buenas y malas, y comentaremos por qué." },
+                    { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla", description: "Exploraremos las plantillas predeterminadas y elegiremos una para nuestra idea." },
+                    { level: "Nivel 3: Creador", title: "La Diapositiva de Título", description: "Crearemos solo la primera diapositiva de una presentación sobre nuestro hobby." },
+                    { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", description: "Expondremos nuestra única diapositiva al resto de compañeros." }
+                ]
+            },
+            {
+                courseNumber: 11,
+                title: "Innova y protege con la IA",
+                description: "Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.",
+                activities: [
+                    { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", description: "En grupo, pensaremos en preguntas divertidas para hacerle a una IA." },
+                    { level: "Nivel 2: Interactivo", title: "Generando Ideas", description: "Usaremos la IA para que nos dé 3 ideas para un viaje o una receta de cocina." },
+                    { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria", description: "Le pediremos a la IA que nos describa y dibuje una mascota inventada." },
+                    { level: "Nivel 4: Conector", title: "Galería de Arte IA", description: "Compartiremos las imágenes creadas por la IA y votaremos la más original." }
+                ]
+            },
+            {
+                courseNumber: 12,
+                title: "Impulsa tu identidad digital",
+                description: "Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.",
+                activities: [
+                    { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", description: "Haremos una lista de 3 cosas que nos gustan y que podríamos compartir online." },
+                    { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", description: "Seleccionaremos una paleta de 2-3 colores que representen nuestra personalidad." },
+                    { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", description: "Crearemos una frase corta que nos describa, como la 'bio' de un perfil." },
+                    { level: "Nivel 4: Conector", title: "Feedback de Compañeros", description: "Compartiremos nuestra frase de presentación y recibiremos opiniones amables." }
+                ]
+            }
+        ];
+
+        const coursesContainer = document.getElementById('courses-container');
+
+        coursesData.forEach(course => {
+            const courseElement = document.createElement('div');
+            courseElement.className = 'mb-10 pl-8 relative timeline-item';
+            courseElement.innerHTML = `
+                <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
+                <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md">${course.description}</p>
+                <button class="activities-toggle mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors w-full text-left flex justify-between items-center">
+                    <span>Ver Actividades Propuestas</span>
+                    <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                </button>
+                <div class="activities-container mt-2 space-y-3 pl-4 border-l-2 border-gray-200">
+                    ${course.activities.map(activity => `
+                        <div class="bg-white p-3 rounded-md shadow-sm">
+                            <p class="font-bold text-gray-800">${activity.level}: <span class="font-normal">${activity.title}</span></p>
+                            <p class="text-sm text-gray-600 mt-1">${activity.description}</p>
+                            <button class="gemini-trigger mt-3 bg-blue-500 text-white font-bold py-1 px-3 rounded-lg hover:bg-blue-600 transition-colors text-sm" data-course-title="${course.title}" data-activity-title="${activity.title}" data-activity-description="${activity.description}">Ver Guía Completa ✨</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            coursesContainer.appendChild(courseElement);
+        });
+
         const modalBackdrop = document.getElementById('gemini-modal-backdrop');
         const modal = document.getElementById('gemini-modal');
         const closeModalButton = document.getElementById('close-modal');
-        const geminiButtons = document.querySelectorAll('.gemini-trigger');
         const modalTitle = document.getElementById('modal-title');
         const geminiResponseEl = document.getElementById('gemini-response');
         const loaderContainer = document.getElementById('loader-container');
+        
         const apiKeyInput = document.getElementById('api-key-input');
+        const saveKeyButton = document.getElementById('save-key');
+        const deleteKeyButton = document.getElementById('delete-key');
+        const statusMessage = document.getElementById('status-message');
+        const toggleVisibilityButton = document.getElementById('toggle-visibility');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedKey = localStorage.getItem('geminiApiKey');
+            if (savedKey) {
+                apiKeyInput.value = savedKey;
+                statusMessage.textContent = 'Clave API cargada desde tu navegador.';
+                setTimeout(() => statusMessage.textContent = '', 3000);
+            }
+        });
+
+        saveKeyButton.addEventListener('click', () => {
+            const key = apiKeyInput.value;
+            if (key) {
+                localStorage.setItem('geminiApiKey', key);
+                statusMessage.textContent = '¡Clave guardada en tu navegador!';
+                statusMessage.classList.remove('text-red-600');
+                statusMessage.classList.add('text-green-600');
+            } else {
+                statusMessage.textContent = 'Por favor, introduce una clave para guardar.';
+                statusMessage.classList.remove('text-green-600');
+                statusMessage.classList.add('text-red-600');
+            }
+            setTimeout(() => statusMessage.textContent = '', 3000);
+        });
+
+        deleteKeyButton.addEventListener('click', () => {
+            localStorage.removeItem('geminiApiKey');
+            apiKeyInput.value = '';
+            statusMessage.textContent = 'Clave guardada eliminada.';
+            statusMessage.classList.remove('text-green-600');
+            statusMessage.classList.add('text-red-600');
+            setTimeout(() => statusMessage.textContent = '', 3000);
+        });
+
+        toggleVisibilityButton.addEventListener('click', () => {
+            if (apiKeyInput.type === 'password') {
+                apiKeyInput.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                apiKeyInput.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
+        });
 
         function showModal() {
             modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
@@ -194,7 +318,21 @@
             }
         });
         
-        async function generateActivity(courseTitle, courseDescription) {
+        document.querySelectorAll('.activities-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const container = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+                if (container.style.maxHeight) {
+                    container.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    container.style.maxHeight = container.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        async function generateActivity(courseTitle, activityTitle, activityDescription) {
             const apiKey = apiKeyInput.value;
 
             showModal();
@@ -203,62 +341,46 @@
 
             if (!apiKey) {
                 loaderContainer.style.display = 'none';
-                geminiResponseEl.textContent = 'Por favor, introduce tu API Key de Google AI en el campo de configuración al principio de la página para poder generar una actividad.';
+                geminiResponseEl.innerHTML = `<p>Por favor, introduce y guarda tu API Key de Google AI en el campo de configuración para poder generar una actividad.</p><a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-500 hover:underline">Puedes obtener una aquí.</a>`;
                 return;
             }
             
-            const prompt = `Actúa como un formador experto en competencias digitales para personas con discapacidad. Genera una idea para una actividad práctica, sencilla y muy visual para el siguiente curso: '${courseTitle}'. La descripción del curso es: '${courseDescription}'. La actividad debe ser fácil de entender para principiantes, durar entre 15 y 20 minutos y fomentar la participación. Estructura la respuesta con un título claro para la actividad, los materiales necesarios (si los hay) y los pasos a seguir de forma muy simple.`;
+            const prompt = `Actúa como un formador experto y muy paciente, especializado en enseñar competencias digitales a personas con discapacidad y mayores que nunca han usado un ordenador. Para el curso '${courseTitle}', necesito una guía paso a paso para la actividad de nivel básico llamada '${activityTitle}'. El objetivo de la actividad es: '${activityDescription}'. La guía debe ser extremadamente simple, con pasos numerados (usando **Paso 1:**, **Paso 2:**, etc.), usando un lenguaje muy claro, cercano y animando al usuario. Debe durar unos 10-15 minutos. No asumas ningún conocimiento previo.`;
             
             let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = { contents: chatHistory };
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-            let retries = 3;
-            let delay = 1000;
-            let response;
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            for (let i = 0; i < retries; i++) {
-                try {
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        if (result.candidates && result.candidates.length > 0 &&
-                            result.candidates[0].content && result.candidates[0].content.parts &&
-                            result.candidates[0].content.parts.length > 0) {
-                            const text = result.candidates[0].content.parts[0].text;
-                            loaderContainer.style.display = 'none';
-                            geminiResponseEl.textContent = text;
-                        } else {
-                           throw new Error('Respuesta inesperada de la API');
-                        }
-                        return; 
-                    } else if (response.status === 429 || response.status >= 500) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        delay *= 2; 
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        loaderContainer.style.display = 'none';
+                        geminiResponseEl.textContent = text;
                     } else {
-                        throw new Error(`Error de la API: ${response.statusText}`);
+                       throw new Error('Respuesta inesperada de la API');
                     }
-                } catch (error) {
-                    if (i === retries - 1) {
-                         loaderContainer.style.display = 'none';
-                         geminiResponseEl.textContent = 'Lo sentimos, no se pudo generar una actividad en este momento. Por favor, verifica tu API Key e inténtalo de nuevo más tarde.';
-                    }
+                } else {
+                    throw new Error(`Error de la API: ${response.statusText}`);
                 }
+            } catch (error) {
+                 loaderContainer.style.display = 'none';
+                 geminiResponseEl.textContent = 'Lo sentimos, no se pudo generar una actividad en este momento. Por favor, verifica tu API Key e inténtalo de nuevo más tarde.';
             }
         }
 
-        geminiButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const parent = button.parentElement;
-                const title = parent.querySelector('h3').dataset.courseTitle;
-                const description = parent.querySelector('p').dataset.courseDescription;
-                modalTitle.textContent = `Actividad para: ${title}`;
-                generateActivity(title, description);
+        document.querySelectorAll('.gemini-trigger').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const { courseTitle, activityTitle, activityDescription } = e.target.dataset;
+                modalTitle.textContent = `Guía para: ${activityTitle}`;
+                generateActivity(courseTitle, activityTitle, activityDescription);
             });
         });
     </script>
