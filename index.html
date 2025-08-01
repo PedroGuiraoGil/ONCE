@@ -24,28 +24,14 @@
             background-color: white;
             border: 4px solid #2196F3; /* Blue-500 */
         }
-        #gemini-modal-backdrop {
-            transition: opacity 0.3s ease-in-out;
-        }
-        #gemini-modal {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .activities-container {
+        .activities-container, .guide-container {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
+        }
+        .guide-text {
+            white-space: pre-wrap;
+            line-height: 1.7;
         }
     </style>
 </head>
@@ -58,38 +44,6 @@
             <p class="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">Esta es nuestra hoja de ruta para los próximos cursos. Juntos, llevaremos vuestras habilidades al siguiente nivel.</p>
             <img src="https://storage.googleapis.com/project-1-122590651199/images/image_0f4feb.png" alt="Un grupo de personas diversas aprendiendo juntas con un ordenador portátil" class="mt-8 w-full max-w-3xl mx-auto rounded-lg shadow-lg">
         </header>
-
-        <!-- API Key Section -->
-        <section class="mb-16 bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
-            <h2 class="text-2xl font-bold text-gray-800 mb-3">Configuración de la IA de Gemini</h2>
-            <p class="text-gray-600 mb-4">Para que el generador de actividades funcione, solo necesitas configurar tu clave API de Google una vez. Se guardará en tu navegador para futuros usos.</p>
-            <div class="space-y-4">
-                <div class="flex-grow">
-                    <label for="api-key-input" class="block text-sm font-medium text-gray-700 mb-1">Tu API Key de Google AI</label>
-                    <div class="flex items-center gap-2">
-                         <input type="password" id="api-key-input" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Pega tu clave aquí">
-                         <button id="toggle-visibility" class="p-2 text-gray-500 hover:text-gray-700">
-                            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                             <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.11 3.563-5.534 6.852-6.393M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.589 17.589A10.012 10.012 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.11 3.563-5.534 6.852-6.393m7.164 1.562A10.05 10.05 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.05 10.05 0 01-1.318 3.975m-1.42 1.42A3.004 3.004 0 0015 12a3 3 0 00-3-3m-3.875-.125A10.012 10.012 0 0012 5" />
-                             </svg>
-                         </button>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center gap-4">
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="whitespace-nowrap inline-block bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm">
-                        Obtener Clave Gratuita
-                    </a>
-                    <button id="save-key" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors text-sm">Guardar Clave</button>
-                    <button id="delete-key" class="text-red-500 hover:text-red-700 font-semibold text-sm">Borrar Clave Guardada</button>
-                </div>
-                 <p id="status-message" class="text-sm text-green-600 h-4"></p>
-            </div>
-        </section>
 
         <!-- Sección de Base -->
         <section class="mb-20">
@@ -130,22 +84,6 @@
 
     </div>
 
-    <!-- Gemini Modal -->
-    <div id="gemini-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
-        <div id="gemini-modal" class="bg-white rounded-lg shadow-2xl w-full max-w-lg p-6 transform scale-95 opacity-0">
-            <div class="flex justify-between items-center border-b pb-3 mb-4">
-                <h3 id="modal-title" class="text-xl font-bold text-gray-800">Guía de la Actividad ✨</h3>
-                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-            </div>
-            <div id="modal-content" class="min-h-[150px] max-h-[60vh] overflow-y-auto">
-                <div id="loader-container" class="flex items-center justify-center h-full">
-                    <div class="loader"></div>
-                </div>
-                <p id="gemini-response" class="text-gray-700 whitespace-pre-wrap"></p>
-            </div>
-        </div>
-    </div>
-
     <script>
         const coursesData = [
             {
@@ -153,10 +91,44 @@
                 title: "Conecta y comparte tu creatividad",
                 description: "Aprenderemos a crear y compartir nuestro propio contenido (fotos, vídeos) en redes sociales y WhatsApp.",
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "El Primer Vistazo", description: "Una actividad para observar y familiarizarse sin necesidad de interactuar." },
-                    { level: "Nivel 2: Interactivo", title: "El Primer 'Me Gusta'", description: "Aprenderemos a realizar la interacción más básica y segura." },
-                    { level: "Nivel 3: Creador", title: "Tu Primera Foto", description: "Nos atreveremos a crear y compartir nuestro primer contenido simple." },
-                    { level: "Nivel 4: Conector", title: "El Primer Comentario", description: "Daremos el paso de conectar con otros a través de un comentario positivo." }
+                    { level: "Nivel 1: Explorador", title: "El Primer Vistazo", description: "Una actividad para observar y familiarizarse sin necesidad de interactuar.", guide: `¡Vamos a dar nuestro primer paseo por una red social! Es como mirar un escaparate, no hay que tocar nada, solo disfrutar.
+
+**Paso 1:** Abrid la aplicación de Instagram o Facebook en vuestro móvil. Si no la tenéis, el formador os ayudará.
+
+**Paso 2:** Simplemente, moved el dedo por la pantalla hacia arriba para ver las fotos y vídeos que aparecen. Fijaos en los colores, en lo que comparte la gente.
+
+**Paso 3:** Si algo os llama la atención, parad un segundo a mirarlo. ¿Es una foto de un paisaje? ¿Un plato de comida? ¿Un animal?
+
+**Paso 4:** ¡Ya está! Habéis explorado sin miedo. El objetivo de hoy era solo mirar y ver que no pasa nada. ¡Muy bien hecho!` },
+                    { level: "Nivel 2: Interactivo", title: "El Primer 'Me Gusta'", description: "Aprenderemos a realizar la interacción más básica y segura.", guide: `Hoy vamos a decir "esto me gusta" sin usar palabras. Es un gesto muy sencillo y amable.
+
+**Paso 1:** Abrid de nuevo Instagram o Facebook.
+
+**Paso 2:** Buscad una foto que os guste de verdad. Puede ser de un cachorro, una flor, un paisaje... lo que sea que os saque una sonrisa.
+
+**Paso 3:** ¿Veis que debajo de la foto hay un icono de un corazón? ¡Perfecto! Tocad ese corazón una sola vez con el dedo.
+
+**Paso 4:** ¡Felicidades! El corazón se pondrá de color rojo. Eso significa que le habéis dado un "Me Gusta". Es una forma de enviar un pequeño saludo positivo a la persona que compartió la foto. ¡Así de fácil!` },
+                    { level: "Nivel 3: Creador", title: "Tu Primera Foto", description: "Nos atreveremos a crear y compartir nuestro primer contenido simple.", guide: `¡Hoy nos convertimos en creadores! Vamos a compartir nuestra propia foto.
+
+**Paso 1:** Abrid la cámara de vuestro móvil. No hace falta abrir ninguna red social todavía.
+
+**Paso 2:** Haced una foto de algo sencillo que tengáis delante: vuestro estuche, un vaso de agua, la planta de la clase... ¡Lo que queráis!
+
+**Paso 3:** Ahora, abrid la aplicación de WhatsApp y buscad el grupo de nuestro curso.
+
+**Paso 4:** Tocad en el icono del clip (📎) o el símbolo de más (+) para adjuntar una foto. Elegid la foto que acabáis de hacer y pulsad "Enviar".
+
+¡Enhorabuena! Acabáis de crear y compartir vuestro primer contenido digital con el grupo.` },
+                    { level: "Nivel 4: Conector", title: "El Primer Comentario", description: "Daremos el paso de conectar con otros a través de un comentario positivo.", guide: `Vamos a usar el poder de las palabras para conectar con nuestros compañeros.
+
+**Paso 1:** En el grupo de WhatsApp del curso, buscad una de las fotos que ha compartido un compañero en la actividad anterior.
+
+**Paso 2:** Mantened pulsado el dedo sobre esa foto hasta que aparezca un menú. Elegid la opción "Responder".
+
+**Paso 3:** Ahora, escribid un comentario corto y amable. Por ejemplo: "¡Qué bonita!", "Me gusta mucho esa foto" o simplemente un emoticono sonriente 😊.
+
+**Paso 4:** Pulsad "Enviar". Vuestro comentario aparecerá junto a la foto. Acabáis de tener vuestra primera conversación en una red social. ¡Un gran paso!` }
                 ]
             },
             {
@@ -164,10 +136,44 @@
                 title: "Descubre y consume contenido de calidad",
                 description: "Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.",
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro", description: "Buscaremos perfiles sobre un tema que nos guste (ej. cocina, jardinería)." },
-                    { level: "Nivel 2: Interactivo", title: "Guardar para Después", description: "Aprenderemos a usar la función de 'Guardar' o 'Ver más tarde'." },
-                    { level: "Nivel 3: Creador", title: "Mi Lista de Intereses", description: "Crearemos una lista simple de 3 canales o perfiles que nos han gustado." },
-                    { level: "Nivel 4: Conector", title: "Compartir un Descubrimiento", description: "Enviaremos un enlace de un vídeo o perfil a un compañero por WhatsApp." }
+                    { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro", description: "Buscaremos perfiles sobre un tema que nos guste (ej. cocina, jardinería).", guide: `Hoy seremos detectives buscando tesoros en internet. El tesoro es encontrar algo que nos apasione.
+
+**Paso 1:** Abrid YouTube o Instagram.
+
+**Paso 2:** Buscad el icono de la lupa (🔍), que es para buscar. Tocadlo.
+
+**Paso 3:** Escribid una palabra sobre algo que os encante. Por ejemplo: "jardinería para principiantes", "recetas fáciles" o "música de los 80".
+
+**Paso 4:** Mirad los resultados que aparecen. Entrad en un par de vídeos o perfiles. No hay que hacer nada más, solo explorar y descubrir qué hay sobre vuestros gustos. ¡A investigar!` },
+                    { level: "Nivel 2: Interactivo", title: "Guardar para Después", description: "Aprenderemos a usar la función de 'Guardar' o 'Ver más tarde'.", guide: `¿Habéis encontrado un vídeo o una publicación interesante pero no tenéis tiempo de verlo ahora? ¡Hay solución!
+
+**Paso 1:** En YouTube, debajo de un vídeo, veréis un botón que dice "Guardar". En Instagram, es un icono como una etiqueta o marcapáginas.
+
+**Paso 2:** Tocad ese botón en un vídeo o foto que os guste. ¡Listo!
+
+**Paso 3:** Ahora, preguntad al formador dónde encontrar la sección de "Guardados" o la lista de "Ver más tarde".
+
+**Paso 4:** Comprobad que el vídeo o la foto que habéis guardado está ahí. Es como tener vuestra propia biblioteca de cosas interesantes para cuando tengáis un rato libre.` },
+                    { level: "Nivel 3: Creador", title: "Mi Lista de Intereses", description: "Crearemos una lista simple de 3 canales o perfiles que nos han gustado.", guide: `Vamos a organizar nuestros descubrimientos. Es una tarea sin ordenador, solo con papel y boli.
+
+**Paso 1:** Coged un papel y un bolígrafo.
+
+**Paso 2:** Pensad en la actividad de "Búsqueda del Tesoro". Recordad los perfiles o canales que más os llamaron la atención.
+
+**Paso 3:** Escribid en el papel el nombre de TRES de ellos. Por ejemplo: "1. Canal de recetas de la abuela", "2. Perfil de fotos de gatos", "3. Vídeos de viajes por España".
+
+**Paso 4:** ¡Ya está! Acabáis de crear vuestra primera "lista de seguimiento" de contenido. Tenerla en papel os ayudará a recordarlos para la próxima vez.` },
+                    { level: "Nivel 4: Conector", title: "Compartir un Descubrimiento", description: "Enviaremos un enlace de un vídeo o perfil a un compañero por WhatsApp.", guide: `Compartir es una de las cosas más bonitas de internet. ¡Vamos a probarlo!
+
+**Paso 1:** Id a ese vídeo de YouTube o perfil de Instagram que tanto os gustó.
+
+**Paso 2:** Buscad el botón o icono de "Compartir". Suele ser una flecha (→ o Share).
+
+**Paso 3:** Al tocarlo, aparecerán varias opciones. Elegid "WhatsApp".
+
+**Paso 4:** Se abrirá vuestra lista de contactos de WhatsApp. Elegid a un compañero del curso o al grupo de la clase y enviádselo.
+
+¡Perfecto! Acabáis de compartir algo que os gusta con otra persona. Así es como se crean las conversaciones y se descubren cosas nuevas.` }
                 ]
             },
             {
@@ -175,10 +181,42 @@
                 title: "Bienestar digital y consumo consciente",
                 description: "Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.",
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "Identifica tus Emociones", description: "Veremos distintos tipos de comentarios y hablaremos de cómo nos hacen sentir." },
-                    { level: "Nivel 2: Interactivo", title: "El Botón de Silenciar", description: "Aprenderemos a silenciar notificaciones o perfiles para tener más tranquilidad." },
-                    { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", description: "Escribiremos un comentario amable y positivo para dejar en una publicación." },
-                    { level: "Nivel 4: Conector", title: "Pacto de Desconexión", description: "Haremos un pequeño pacto en grupo para no usar el móvil durante un rato." }
+                    { level: "Nivel 1: Explorador", title: "Identifica tus Emociones", description: "Veremos distintos tipos de comentarios y hablaremos de cómo nos hacen sentir.", guide: `Hoy vamos a hablar de sentimientos, algo muy importante en las redes.
+
+**Paso 1:** El formador os mostrará en la pantalla grande varios ejemplos de comentarios: unos muy amables y otros... no tanto.
+
+**Paso 2:** No hay que escribir nada. Solo leerlos y pensar: ¿Cómo me haría sentir si este comentario fuera para mí? ¿Feliz? ¿Triste? ¿Enfadado?
+
+**Paso 3:** Pondremos en común lo que hemos sentido. Veremos que a todos nos afectan las palabras, para bien y para mal.
+
+**Paso 4:** El objetivo es aprender a reconocer los comentarios que nos hacen bien y los que no. Es el primer paso para protegernos.` },
+                    { level: "Nivel 2: Interactivo", title: "El Botón de Silenciar", description: "Aprenderemos a silenciar notificaciones o perfiles para tener más tranquilidad.", guide: `A veces, necesitamos un poco de paz y silencio. Vamos a aprender a conseguirla.
+
+**Paso 1:** Abrid vuestro WhatsApp y buscad un grupo que tenga muchas notificaciones (¡no tiene por qué ser el del curso!).
+
+**Paso 2:** Mantened pulsado el dedo sobre el nombre del grupo hasta que aparezca un menú arriba.
+
+**Paso 3:** Buscad un icono de un altavoz tachado (🔇). Tocadlo. Os preguntará por cuánto tiempo queréis silenciarlo. Elegid "8 horas" o "1 semana".
+
+**Paso 4:** ¡Listo! Habéis silenciado las notificaciones. Seguiréis recibiendo los mensajes, pero el móvil ya no sonará todo el rato. Vosotros tenéis el control.` },
+                    { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", description: "Escribiremos un comentario amable y positivo para dejar en una publicación.", guide: `Hoy vamos a repartir un poco de alegría por las redes.
+
+**Paso 1:** Id a una publicación que os guste en Instagram, Facebook o YouTube.
+
+**Paso 2:** Tocad en la opción de "Añadir un comentario".
+
+**Paso 3:** Escribid algo bonito y sencillo. No tiene que ser largo. Un "Gracias por compartir" o "¡Qué interesante!" es perfecto.
+
+**Paso 4:** Enviadlo. Vuestro mensaje puede alegrarle el día a alguien. Ser amables en internet es una habilidad muy poderosa.` },
+                    { level: "Nivel 4: Conector", title: "Pacto de Desconexión", description: "Haremos un pequeño pacto en grupo para no usar el móvil durante un rato.", guide: `Vamos a hacer un experimento juntos para demostrar que podemos vivir sin el móvil.
+
+**Paso 1:** Todos juntos, vamos a poner nuestro móvil en silencio.
+
+**Paso 2:** Lo vamos a dejar boca abajo sobre la mesa.
+
+**Paso 3:** Haremos un pacto de grupo: durante los próximos 15 minutos, nadie puede mirar el móvil.
+
+**Paso 4:** Aprovecharemos ese tiempo para charlar con el compañero de al lado. Al terminar, hablaremos de cómo nos hemos sentido. ¿Ha sido difícil? ¿Liberador? Aprender a desconectar es clave para nuestro bienestar.` }
                 ]
             },
             {
@@ -186,10 +224,42 @@
                 title: "Domina el arte de las presentaciones",
                 description: "Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.",
                  activities: [
-                    { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", description: "Veremos ejemplos de diapositivas buenas y malas, y comentaremos por qué." },
-                    { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla", description: "Exploraremos las plantillas predeterminadas y elegiremos una para nuestra idea." },
-                    { level: "Nivel 3: Creador", title: "La Diapositiva de Título", description: "Crearemos solo la primera diapositiva de una presentación sobre nuestro hobby." },
-                    { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", description: "Expondremos nuestra única diapositiva al resto de compañeros." }
+                    { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", description: "Veremos ejemplos de diapositivas buenas y malas, y comentaremos por qué.", guide: `Hoy vamos a ser críticos de arte, pero con diapositivas.
+
+**Paso 1:** El formador proyectará dos ejemplos de diapositivas. Una será muy clara y bonita, y la otra estará muy cargada de texto y con colores feos.
+
+**Paso 2:** Observadlas bien. No hay que hacer nada en el ordenador, solo mirar.
+
+**Paso 3:** Haremos una lluvia de ideas en voz alta: ¿Qué tiene la diapositiva buena que nos gusta? (Poco texto, una imagen grande, colores agradables).
+
+**Paso 4:** ¿Y qué tiene la mala que no nos gusta? (Mucho texto, difícil de leer, colores que hacen daño a la vista). Aprender a diferenciar lo bueno de lo malo es el primer paso para crear bien.` },
+                    { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla", description: "Exploraremos las plantillas predeterminadas y elegiremos una para nuestra idea.", guide: `Vamos a empezar a diseñar, ¡pero con ayuda! Usaremos las plantillas.
+
+**Paso 1:** Abrid el programa de presentaciones (PowerPoint o Google Slides).
+
+**Paso 2:** Al crear una presentación nueva, el programa os ofrecerá un montón de "Diseños" o "Plantillas".
+
+**Paso 3:** Haced clic en varias de ellas para ver cómo cambian los colores y las letras de la diapositiva.
+
+**Paso 4:** Elegid la que más os guste. La que os parezca más clara o más bonita. ¡Ya tenéis la base para vuestra presentación!` },
+                    { level: "Nivel 3: Creador", title: "La Diapositiva de Título", description: "Crearemos solo la primera diapositiva de una presentación sobre nuestro hobby.", guide: `¡Manos a la obra! Vamos a crear la portada de nuestra presentación.
+
+**Paso 1:** Con la plantilla que elegisteis antes, haced clic donde pone "Haga clic para agregar título".
+
+**Paso 2:** Escribid un título sobre vuestro hobby o algo que os guste. Por ejemplo: "Mi Pasión por las Plantas" o "Viajar en Tren".
+
+**Paso 3:** Ahora, haced clic donde pone "Haga clic para agregar subtítulo" y escribid vuestro nombre.
+
+**Paso 4:** ¡Ya está! Habéis creado la diapositiva más importante, la que presenta vuestra idea. ¡Guardad el archivo!` },
+                    { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", description: "Expondremos nuestra única diapositiva al resto de compañeros.", guide: `Hoy vamos a ser ponentes, ¡pero solo durante un minuto!
+
+**Paso 1:** El formador os ayudará a proyectar en la pantalla grande la diapositiva de título que creasteis en la actividad anterior.
+
+**Paso 2:** Cuando aparezca vuestra diapositiva, os levantaréis y simplemente diréis vuestro nombre y el título de vuestra presentación.
+
+**Paso 3:** Podéis añadir una frase, como por ejemplo: "Hola, soy Juan y os voy a hablar de mi pasión por las plantas".
+
+**Paso 4:** ¡Listo! El resto de compañeros os daremos un fuerte aplauso. Es el primer paso para hablar en público y compartir vuestras ideas.` }
                 ]
             },
             {
@@ -197,10 +267,42 @@
                 title: "Innova y protege con la IA",
                 description: "Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.",
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", description: "En grupo, pensaremos en preguntas divertidas para hacerle a una IA." },
-                    { level: "Nivel 2: Interactivo", title: "Generando Ideas", description: "Usaremos la IA para que nos dé 3 ideas para un viaje o una receta de cocina." },
-                    { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria", description: "Le pediremos a la IA que nos describa y dibuje una mascota inventada." },
-                    { level: "Nivel 4: Conector", title: "Galería de Arte IA", description: "Compartiremos las imágenes creadas por la IA y votaremos la más original." }
+                    { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", description: "En grupo, pensaremos en preguntas divertidas para hacerle a una IA.", guide: `Hoy vamos a conocer a un "genio" digital. Pero primero, tenemos que pensar qué le vamos a pedir.
+
+**Paso 1:** En grupo, vamos a hacer una lluvia de ideas. No usaremos el ordenador todavía.
+
+**Paso 2:** Pensemos en preguntas curiosas o divertidas para hacerle a una Inteligencia Artificial. Por ejemplo: "¿Qué sueñan los robots?", "Invéntate una receta con chocolate y patatas fritas", "Escribe un poema sobre un gato astronauta".
+
+**Paso 3:** Apuntaremos las mejores ideas en la pizarra.
+
+**Paso 4:** El objetivo es entender que a la IA hay que pedirle cosas concretas. ¡Cuanto mejor sea la pregunta, mejor será la respuesta!` },
+                    { level: "Nivel 2: Interactivo", title: "Generando Ideas", description: "Usaremos la IA para que nos dé 3 ideas para un viaje o una receta de cocina.", guide: `Ahora sí, vamos a pedirle ayuda a la IA.
+
+**Paso 1:** El formador abrirá una herramienta de IA como ChatGPT en la pantalla grande.
+
+**Paso 2:** Le escribiremos una petición clara. Por ejemplo: "Dame 3 ideas de postres fáciles para alguien que nunca ha cocinado".
+
+**Paso 3:** Leeremos juntos las respuestas que nos da la IA. ¿Son buenas ideas? ¿Son fáciles de entender?
+
+**Paso 4:** Veremos cómo la IA puede ser una fuente de inspiración rapidísima para cuando no se nos ocurre nada. ¡Es como tener un ayudante creativo!` },
+                    { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria", description: "Le pediremos a la IA que nos describa y dibuje una mascota inventada.", guide: `¡Hoy vamos a crear vida... digital! Vamos a inventarnos una mascota.
+
+**Paso 1:** El formador usará una IA que crea imágenes (como Dall-E o Copilot).
+
+**Paso 2:** Le daremos una descripción muy detallada. Por ejemplo: "Dibuja un elefante pequeño, de color azul, con alas de mariposa y que esté comiendo una pizza".
+
+**Paso 3:** Veremos con asombro cómo la IA crea una imagen que no existía a partir de nuestras palabras.
+
+**Paso 4:** ¡Guardaremos la imagen! Ya tenemos nuestra mascota única y original, creada por nosotros con la ayuda de la IA.` },
+                    { level: "Nivel 4: Conector", title: "Galería de Arte IA", description: "Compartiremos las imágenes creadas por la IA y votaremos la más original.", guide: `Vamos a montar una exposición de arte con nuestras creaciones.
+
+**Paso 1:** Cada uno mostrará al resto del grupo la imagen de su mascota imaginaria que creó la IA.
+
+**Paso 2:** La explicaremos brevemente: "¿Por qué elegí un elefante azul? Porque es mi color favorito".
+
+**Paso 3:** Haremos una votación a mano alzada para elegir la mascota más divertida o la más original de todas.
+
+**Paso 4:** El objetivo es compartir nuestras creaciones, ver las de los demás y celebrar la creatividad de todos. ¡Felicidades a todos los artistas!` }
                 ]
             },
             {
@@ -208,10 +310,42 @@
                 title: "Impulsa tu identidad digital",
                 description: "Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.",
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", description: "Haremos una lista de 3 cosas que nos gustan y que podríamos compartir online." },
-                    { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", description: "Seleccionaremos una paleta de 2-3 colores que representen nuestra personalidad." },
-                    { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", description: "Crearemos una frase corta que nos describa, como la 'bio' de un perfil." },
-                    { level: "Nivel 4: Conector", title: "Feedback de Compañeros", description: "Compartiremos nuestra frase de presentación y recibiremos opiniones amables." }
+                    { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", description: "Haremos una lista de 3 cosas que nos gustan y que podríamos compartir online.", guide: `Hoy vamos a hacer un ejercicio de autoconocimiento. Solo necesitamos papel y boli.
+
+**Paso 1:** Dobla un folio por la mitad.
+
+**Paso 2:** En un lado, escribe "Cosas que me gustan mucho". Y haz una lista de al menos 3 cosas. Por ejemplo: las plantas, pasear por la playa, el cine clásico.
+
+**Paso 3:** En el otro lado, escribe "Cosas que se me dan bien". Por ejemplo: escuchar a los demás, hacer bizcochos, contar chistes.
+
+**Paso 4:** Mira tu lista. Esa es la base de tu "marca personal". Son los temas de los que podrías hablar en internet porque te apasionan y se te dan bien. ¡Es tu punto de partida!` },
+                    { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", description: "Seleccionaremos una paleta de 2-3 colores que representen nuestra personalidad.", guide: `Vamos a darle color a nuestra marca personal.
+
+**Paso 1:** El formador os mostrará una rueda de colores o varias paletas de colores.
+
+**Paso 2:** Pensad en vuestra personalidad. ¿Sois alegres y enérgicos? Quizás os gusten el amarillo y el naranja. ¿Sois tranquilos y serenos? Quizás el azul y el verde.
+
+**Paso 3:** Elegid dos o tres colores que creáis que os representan. No hay respuestas correctas o incorrectas.
+
+**Paso 4:** Apuntadlos. Esos serán "vuestros colores". Usarlos en vuestras creaciones (como en las presentaciones) hará que todo tenga un estilo más personal y reconocible.` },
+                    { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", description: "Crearemos una frase corta que nos describa, como la 'bio' de un perfil.", guide: `Vamos a resumir quiénes somos en una sola frase. ¡Es todo un reto!
+
+**Paso 1:** Coge el papel donde apuntaste las cosas que te gustan y se te dan bien.
+
+**Paso 2:** Intenta crear una frase corta que te describa. Por ejemplo: "Amante de las plantas y aprendiz de repostero" o "Disfrutando de la jubilación entre paseos por la playa y buen cine".
+
+**Paso 3:** Escríbela. No te preocupes si no sale perfecta a la primera. Puedes hacer varios borradores.
+
+**Paso 4:** Esta frase es vuestra "biografía" o "bio". Es lo primero que la gente leería sobre vosotros en un perfil. ¡Buen trabajo!` },
+                    { level: "Nivel 4: Conector", title: "Feedback de Compañeros", description: "Compartiremos nuestra frase de presentación y recibiremos opiniones amables.", guide: `El último paso es compartir y ayudarnos mutuamente.
+
+**Paso 1:** Leeremos en voz alta, de forma voluntaria, la frase de presentación que hemos creado.
+
+**Paso 2:** El resto de compañeros escucharemos con atención.
+
+**Paso 3:** Daremos nuestra opinión, pero siempre de forma constructiva y amable. Por ejemplo: "Me gusta mucho tu frase, suena muy alegre" o "¿Y si pruebas a añadir la palabra 'apasionado'?".
+
+**Paso 4:** El objetivo es ayudarnos a pulir nuestra presentación. Recibir la opinión de los demás es un regalo que nos ayuda a mejorar. ¡Felicidades por completar este viaje!` }
                 ]
             }
         ];
@@ -221,168 +355,72 @@
         coursesData.forEach(course => {
             const courseElement = document.createElement('div');
             courseElement.className = 'mb-10 pl-8 relative timeline-item';
+            
+            const activitiesHTML = course.activities.map((activity, index) => `
+                <div class="bg-white p-3 rounded-md shadow-sm mt-3">
+                    <button class="activity-toggle w-full text-left font-bold text-gray-800 flex justify-between items-center">
+                        <span>${activity.level}: ${activity.title}</span>
+                        <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
+                    <div class="guide-container">
+                        <p class="guide-text mt-2 pt-2 border-t text-gray-700">${activity.guide}</p>
+                    </div>
+                </div>
+            `).join('');
+
             courseElement.innerHTML = `
                 <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
                 <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md">${course.description}</p>
-                <button class="activities-toggle mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors w-full text-left flex justify-between items-center">
+                <button class="main-activities-toggle mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors w-full text-left flex justify-between items-center">
                     <span>Ver Actividades Propuestas</span>
                     <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                 </button>
-                <div class="activities-container mt-2 space-y-3 pl-4 border-l-2 border-gray-200">
-                    ${course.activities.map(activity => `
-                        <div class="bg-white p-3 rounded-md shadow-sm">
-                            <p class="font-bold text-gray-800">${activity.level}: <span class="font-normal">${activity.title}</span></p>
-                            <p class="text-sm text-gray-600 mt-1">${activity.description}</p>
-                            <button class="gemini-trigger mt-3 bg-blue-500 text-white font-bold py-1 px-3 rounded-lg hover:bg-blue-600 transition-colors text-sm" data-course-title="${course.title}" data-activity-title="${activity.title}" data-activity-description="${activity.description}">Ver Guía Completa ✨</button>
-                        </div>
-                    `).join('')}
+                <div class="activities-container mt-2 space-y-2">
+                    ${activitiesHTML}
                 </div>
             `;
             coursesContainer.appendChild(courseElement);
         });
 
-        const modalBackdrop = document.getElementById('gemini-modal-backdrop');
-        const modal = document.getElementById('gemini-modal');
-        const closeModalButton = document.getElementById('close-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const geminiResponseEl = document.getElementById('gemini-response');
-        const loaderContainer = document.getElementById('loader-container');
-        
-        const apiKeyInput = document.getElementById('api-key-input');
-        const saveKeyButton = document.getElementById('save-key');
-        const deleteKeyButton = document.getElementById('delete-key');
-        const statusMessage = document.getElementById('status-message');
-        const toggleVisibilityButton = document.getElementById('toggle-visibility');
-        const eyeOpen = document.getElementById('eye-open');
-        const eyeClosed = document.getElementById('eye-closed');
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedKey = localStorage.getItem('geminiApiKey');
-            if (savedKey) {
-                apiKeyInput.value = savedKey;
-                statusMessage.textContent = 'Clave API cargada desde tu navegador.';
-                setTimeout(() => statusMessage.textContent = '', 3000);
-            }
-        });
-
-        saveKeyButton.addEventListener('click', () => {
-            const key = apiKeyInput.value;
-            if (key) {
-                localStorage.setItem('geminiApiKey', key);
-                statusMessage.textContent = '¡Clave guardada en tu navegador!';
-                statusMessage.classList.remove('text-red-600');
-                statusMessage.classList.add('text-green-600');
-            } else {
-                statusMessage.textContent = 'Por favor, introduce una clave para guardar.';
-                statusMessage.classList.remove('text-green-600');
-                statusMessage.classList.add('text-red-600');
-            }
-            setTimeout(() => statusMessage.textContent = '', 3000);
-        });
-
-        deleteKeyButton.addEventListener('click', () => {
-            localStorage.removeItem('geminiApiKey');
-            apiKeyInput.value = '';
-            statusMessage.textContent = 'Clave guardada eliminada.';
-            statusMessage.classList.remove('text-green-600');
-            statusMessage.classList.add('text-red-600');
-            setTimeout(() => statusMessage.textContent = '', 3000);
-        });
-
-        toggleVisibilityButton.addEventListener('click', () => {
-            if (apiKeyInput.type === 'password') {
-                apiKeyInput.type = 'text';
-                eyeOpen.classList.add('hidden');
-                eyeClosed.classList.remove('hidden');
-            } else {
-                apiKeyInput.type = 'password';
-                eyeOpen.classList.remove('hidden');
-                eyeClosed.classList.add('hidden');
-            }
-        });
-
-        function showModal() {
-            modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.remove('scale-95', 'opacity-0');
-        }
-
-        function hideModal() {
-            modal.classList.add('scale-95', 'opacity-0');
-            modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        closeModalButton.addEventListener('click', hideModal);
-        modalBackdrop.addEventListener('click', (e) => {
-            if (e.target === modalBackdrop) {
-                hideModal();
-            }
-        });
-        
-        document.querySelectorAll('.activities-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const container = button.nextElementSibling;
-                const icon = button.querySelector('svg');
-                if (container.style.maxHeight) {
-                    container.style.maxHeight = null;
-                    icon.style.transform = 'rotate(0deg)';
-                } else {
-                    container.style.maxHeight = container.scrollHeight + "px";
-                    icon.style.transform = 'rotate(180deg)';
-                }
-            });
-        });
-
-        async function generateActivity(courseTitle, activityTitle, activityDescription) {
-            const apiKey = apiKeyInput.value;
-
-            showModal();
-            loaderContainer.style.display = 'flex';
-            geminiResponseEl.textContent = '';
-
-            if (!apiKey) {
-                loaderContainer.style.display = 'none';
-                geminiResponseEl.innerHTML = `<p>Por favor, introduce y guarda tu API Key de Google AI en el campo de configuración para poder generar una actividad.</p><a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-500 hover:underline">Puedes obtener una aquí.</a>`;
-                return;
-            }
-            
-            const prompt = `Actúa como un formador experto y muy paciente, especializado en enseñar competencias digitales a personas con discapacidad y mayores que nunca han usado un ordenador. Para el curso '${courseTitle}', necesito una guía paso a paso para la actividad de nivel básico llamada '${activityTitle}'. El objetivo de la actividad es: '${activityDescription}'. La guía debe ser extremadamente simple, con pasos numerados (usando **Paso 1:**, **Paso 2:**, etc.), usando un lenguaje muy claro, cercano y animando al usuario. Debe durar unos 10-15 minutos. No asumas ningún conocimiento previo.`;
-            
-            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-            const payload = { contents: chatHistory };
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.candidates && result.candidates.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        loaderContainer.style.display = 'none';
-                        geminiResponseEl.textContent = text;
+        function setupToggle(buttonSelector, containerSelector, iconSelector) {
+             document.querySelectorAll(buttonSelector).forEach(button => {
+                button.addEventListener('click', () => {
+                    const container = button.nextElementSibling;
+                    const icon = button.querySelector(iconSelector);
+                    if (container.style.maxHeight) {
+                        container.style.maxHeight = null;
+                        if(icon) icon.style.transform = 'rotate(0deg)';
                     } else {
-                       throw new Error('Respuesta inesperada de la API');
+                        container.style.maxHeight = container.scrollHeight + "px";
+                        if(icon) icon.style.transform = 'rotate(180deg)';
                     }
-                } else {
-                    throw new Error(`Error de la API: ${response.statusText}`);
-                }
-            } catch (error) {
-                 loaderContainer.style.display = 'none';
-                 geminiResponseEl.textContent = 'Lo sentimos, no se pudo generar una actividad en este momento. Por favor, verifica tu API Key e inténtalo de nuevo más tarde.';
-            }
+                });
+            });
         }
-
-        document.querySelectorAll('.gemini-trigger').forEach(button => {
+        
+        setupToggle('.main-activities-toggle', '.activities-container', 'svg');
+        
+        document.querySelectorAll('.activity-toggle').forEach(button => {
             button.addEventListener('click', (e) => {
-                const { courseTitle, activityTitle, activityDescription } = e.target.dataset;
-                modalTitle.textContent = `Guía para: ${activityTitle}`;
-                generateActivity(courseTitle, activityTitle, activityDescription);
+                const guideContainer = e.currentTarget.nextElementSibling;
+                const mainContainer = e.currentTarget.closest('.activities-container');
+                const icon = e.currentTarget.querySelector('svg');
+
+                if (guideContainer.style.maxHeight) {
+                    guideContainer.style.maxHeight = null;
+                    if(icon) icon.style.transform = 'rotate(0deg)';
+                } else {
+                    guideContainer.style.maxHeight = guideContainer.scrollHeight + "px";
+                    if(icon) icon.style.transform = 'rotate(180deg)';
+                }
+                
+                // Recalculate main container height
+                if (mainContainer.style.maxHeight) {
+                    mainContainer.style.maxHeight = mainContainer.scrollHeight + "px";
+                }
             });
         });
+
     </script>
 
 </body>
