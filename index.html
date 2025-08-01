@@ -54,6 +54,22 @@
             <img src="https://storage.googleapis.com/project-1-122590651199/images/image_0f4feb.png" alt="Un grupo de personas diversas aprendiendo juntas con un ordenador portátil" class="mt-8 w-full max-w-3xl mx-auto rounded-lg shadow-lg">
         </header>
 
+        <!-- API Key Section -->
+        <section class="mb-16 bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">Configuración de la IA de Gemini</h2>
+            <p class="text-gray-600 mb-4">Para usar el generador de actividades, necesitas una API Key de Google. Es gratis y fácil de obtener.</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="flex-grow">
+                    <label for="api-key-input" class="block text-sm font-medium text-gray-700 mb-1">Tu API Key de Google AI</label>
+                    <input type="password" id="api-key-input" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" placeholder="Pega tu clave aquí">
+                </div>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="mt-2 sm:mt-6 whitespace-nowrap inline-block bg-purple-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                    Obtener Clave
+                </a>
+            </div>
+        </section>
+
+
         <!-- Sección de Base -->
         <section class="mb-20">
             <h2 class="text-3xl font-bold text-center mb-10">Nuestra Base: Lo que ya hemos Conquistado</h2>
@@ -159,6 +175,7 @@
         const modalTitle = document.getElementById('modal-title');
         const geminiResponseEl = document.getElementById('gemini-response');
         const loaderContainer = document.getElementById('loader-container');
+        const apiKeyInput = document.getElementById('api-key-input');
 
         function showModal() {
             modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
@@ -178,15 +195,22 @@
         });
         
         async function generateActivity(courseTitle, courseDescription) {
+            const apiKey = apiKeyInput.value;
+
             showModal();
-            geminiResponseEl.textContent = '';
             loaderContainer.style.display = 'flex';
+            geminiResponseEl.textContent = '';
+
+            if (!apiKey) {
+                loaderContainer.style.display = 'none';
+                geminiResponseEl.textContent = 'Por favor, introduce tu API Key de Google AI en el campo de configuración al principio de la página para poder generar una actividad.';
+                return;
+            }
             
             const prompt = `Actúa como un formador experto en competencias digitales para personas con discapacidad. Genera una idea para una actividad práctica, sencilla y muy visual para el siguiente curso: '${courseTitle}'. La descripción del curso es: '${courseDescription}'. La actividad debe ser fácil de entender para principiantes, durar entre 15 y 20 minutos y fomentar la participación. Estructura la respuesta con un título claro para la actividad, los materiales necesarios (si los hay) y los pasos a seguir de forma muy simple.`;
             
             let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             let retries = 3;
@@ -214,16 +238,15 @@
                         }
                         return; 
                     } else if (response.status === 429 || response.status >= 500) {
-                        // Throttling or server error, retry
                         await new Promise(resolve => setTimeout(resolve, delay));
-                        delay *= 2; // Exponential backoff
+                        delay *= 2; 
                     } else {
                         throw new Error(`Error de la API: ${response.statusText}`);
                     }
                 } catch (error) {
                     if (i === retries - 1) {
                          loaderContainer.style.display = 'none';
-                         geminiResponseEl.textContent = 'Lo sentimos, no se pudo generar una actividad en este momento. Por favor, inténtalo de nuevo más tarde.';
+                         geminiResponseEl.textContent = 'Lo sentimos, no se pudo generar una actividad en este momento. Por favor, verifica tu API Key e inténtalo de nuevo más tarde.';
                     }
                 }
             }
