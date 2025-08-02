@@ -24,10 +24,35 @@
             background-color: white;
             border: 4px solid #2196F3; /* Blue-500 */
         }
-        .activities-container {
+        .details-container, .activities-container, .guide-container {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
+        }
+        .details-content h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            margin-top: 1.5rem; /* mt-6 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #1e3a8a; /* blue-900 */
+        }
+         .details-content h4 {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* font-bold */
+            margin-top: 1rem; /* mt-4 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #1d4ed8; /* blue-700 */
+        }
+        .details-content p {
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .details-content ul {
+            list-style-position: inside;
+            margin-left: 0.5rem; /* ml-2 */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+         .details-content li {
+            margin-bottom: 0.5rem; /* mb-2 */
         }
         .guide-text {
             white-space: pre-wrap;
@@ -88,264 +113,128 @@
         const coursesData = [
             {
                 courseNumber: 7,
-                title: "Conecta y comparte tu creatividad",
+                title: "Conecta y comparte tu creatividad en el mundo digital",
                 description: "Aprenderemos a crear y compartir nuestro propio contenido (fotos, vídeos) en redes sociales y WhatsApp.",
+                details: `
+                    <h3>Descripción Extensa del Curso</h3>
+                    <p>Este curso intensivo de dos días está diseñado como una inmersión práctica y amigable en el mundo digital. El objetivo no es solo aprender a usar herramientas, sino a construir la confianza necesaria para expresar y compartir la creatividad personal de forma segura. Partiremos desde los conceptos más básicos, entendiendo el "porqué" de cada red social, hasta llegar a la creación de contenido multimedia (fotos, textos e imágenes con IA) y su compartición a través de un canal propio y personal en WhatsApp, concebido como un moderno álbum familiar o un blog íntimo. La metodología es "aprender-haciendo", con un fuerte énfasis en la práctica guiada y en un entorno de aprendizaje seguro y colaborativo.</p>
+                    <h3>III. Plan de Estudios Detallado</h3>
+                    <h4>DÍA 1: EXPLORACIÓN Y CREACIÓN INICIAL</h4>
+                    <ul>
+                        <li><strong>Módulo 1: Explorando el Mundo Digital:</strong> Visión general de redes sociales, formatos de publicación y seguridad.</li>
+                        <li><strong>Módulo 2: Creando Nuestro Primer Contenido:</strong> Consejos prácticos para mejorar la fotografía móvil.</li>
+                        <li><strong>Módulo 3: De la Idea a la Primera Publicación (con IA):</strong> Uso de IA para generar ideas y textos.</li>
+                    </ul>
+                    <h4>DÍA 2: CREACIÓN AVANZADA Y ESTRATEGIA DE COMPARTICIÓN</h4>
+                     <ul>
+                        <li><strong>Módulo 4: Compartiendo con WhatsApp:</strong> Dominio del "Canal" de WhatsApp para compartir contenido.</li>
+                        <li><strong>Módulo 5: Creación de Contenido Visual con IA:</strong> Generación de imágenes únicas desde cero.</li>
+                        <li><strong>Módulo 6: Estrategia de Contenido para mi Canal:</strong> Creación de un plan de publicación sencillo.</li>
+                    </ul>
+                `,
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "El Primer Vistazo", guide: `¡Vamos a dar nuestro primer paseo por una red social! Es como mirar un escaparate, no hay que tocar nada, solo disfrutar.
-
-**Paso 1:** Abrid la aplicación de Instagram o Facebook en vuestro móvil. Si no la tenéis, el formador os ayudará.
-
-**Paso 2:** Simplemente, moved el dedo por la pantalla hacia arriba para ver las fotos y vídeos que aparecen. Fijaos en los colores, en lo que comparte la gente.
-
-**Paso 3:** Si algo os llama la atención, parad un segundo a mirarlo. ¿Es una foto de un paisaje? ¿Un plato de comida? ¿Un animal?
-
-**Paso 4:** ¡Ya está! Habéis explorado sin miedo. El objetivo de hoy era solo mirar y ver que no pasa nada. ¡Muy bien hecho!` },
-                    { level: "Nivel 2: Interactivo", title: "El Primer 'Me Gusta'", guide: `Hoy vamos a decir "esto me gusta" sin usar palabras. Es un gesto muy sencillo y amable.
-
-**Paso 1:** Abrid de nuevo Instagram o Facebook.
-
-**Paso 2:** Buscad una foto que os guste de verdad. Puede ser de un cachorro, una flor, un paisaje... lo que sea que os saque una sonrisa.
-
-**Paso 3:** ¿Veis que debajo de la foto hay un icono de un corazón? ¡Perfecto! Tocad ese corazón una sola vez con el dedo.
-
-**Paso 4:** ¡Felicidades! El corazón se pondrá de color rojo. Eso significa que le habéis dado un "Me Gusta". Es una forma de enviar un pequeño saludo positivo a la persona que compartió la foto. ¡Así de fácil!` },
-                    { level: "Nivel 3: Creador", title: "Tu Primera Foto", guide: `¡Hoy nos convertimos en creadores! Vamos a compartir nuestra propia foto.
-
-**Paso 1:** Abrid la cámara de vuestro móvil. No hace falta abrir ninguna red social todavía.
-
-**Paso 2:** Haced una foto de algo sencillo que tengáis delante: vuestro estuche, un vaso de agua, la planta de la clase... ¡Lo que queráis!
-
-**Paso 3:** Ahora, abrid la aplicación de WhatsApp y buscad el grupo de nuestro curso.
-
-**Paso 4:** Tocad en el icono del clip (📎) o el símbolo de más (+) para adjuntar una foto. Elegid la foto que acabáis de hacer y pulsad "Enviar".
-
-¡Enhorabuena! Acabáis de crear y compartir vuestro primer contenido digital con el grupo.` },
-                    { level: "Nivel 4: Conector", title: "El Primer Comentario", guide: `Vamos a usar el poder de las palabras para conectar con nuestros compañeros.
-
-**Paso 1:** En el grupo de WhatsApp del curso, buscad una de las fotos que ha compartido un compañero en la actividad anterior.
-
-**Paso 2:** Mantened pulsado el dedo sobre esa foto hasta que aparezca un menú. Elegid la opción "Responder".
-
-**Paso 3:** Ahora, escribid un comentario corto y amable. Por ejemplo: "¡Qué bonita!", "Me gusta mucho esa foto" o simplemente un emoticono sonriente 😊.
-
-**Paso 4:** Pulsad "Enviar". Vuestro comentario aparecerá junto a la foto. Acabáis de tener vuestra primera conversación en una red social. ¡Un gran paso!` }
+                    { level: "Nivel 1: Explorador", title: "El Primer Vistazo", guide: `¡Vamos a dar nuestro primer paseo por una red social! Es como mirar un escaparate, no hay que tocar nada, solo disfrutar.\n\n**Paso 1:** Abrid la aplicación de Instagram o Facebook...\n**Paso 2:** Simplemente, moved el dedo por la pantalla hacia arriba...\n**Paso 3:** Si algo os llama la atención, parad un segundo a mirarlo...\n**Paso 4:** ¡Ya está! Habéis explorado sin miedo.` },
+                    { level: "Nivel 2: Interactivo", title: "El Primer 'Me Gusta'", guide: `Hoy vamos a decir "esto me gusta" sin usar palabras. Es un gesto muy sencillo y amable...\n\n**Paso 1:** Abrid de nuevo Instagram o Facebook...\n**Paso 2:** Buscad una foto que os guste de verdad...\n**Paso 3:** ¿Veis que debajo de la foto hay un icono de un corazón? Tocad ese corazón...\n**Paso 4:** ¡Felicidades! El corazón se pondrá de color rojo.` },
+                    { level: "Nivel 3: Creador", title: "Tu Primera Foto", guide: `¡Hoy nos convertimos en creadores! Vamos a compartir nuestra propia foto...\n\n**Paso 1:** Abrid la cámara de vuestro móvil...\n**Paso 2:** Haced una foto de algo sencillo...\n**Paso 3:** Ahora, abrid la aplicación de WhatsApp y buscad el grupo...\n**Paso 4:** Tocad en el icono del clip para adjuntar la foto y enviadla.` },
+                    { level: "Nivel 4: Conector", title: "El Primer Comentario", guide: `Vamos a usar el poder de las palabras para conectar con nuestros compañeros...\n\n**Paso 1:** En el grupo de WhatsApp, buscad una foto de un compañero...\n**Paso 2:** Mantened pulsado sobre esa foto y elegid "Responder"...\n**Paso 3:** Escribid un comentario corto y amable...\n**Paso 4:** Pulsad "Enviar".` }
                 ]
             },
             {
                 courseNumber: 8,
-                title: "Descubre y consume contenido de calidad",
+                title: "Descubre, consume y comparte contenido de calidad en el mundo digital",
                 description: "Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.",
+                details: `
+                    <h3>Plan de Estudios</h3>
+                    <ul>
+                        <li><strong>Perfiles de Calidad:</strong> Aprender a identificar qué hace a un perfil o creador de contenido fiable e interesante.</li>
+                        <li><strong>Búsqueda en Redes Sociales:</strong> Técnicas para encontrar contenido de calidad en Facebook, Instagram y LinkedIn sobre nuestros intereses.</li>
+                        <li><strong>Exploración de YouTube:</strong> Cómo acceder, realizar búsquedas efectivas y explorar canales.</li>
+                        <li><strong>Consumo Responsable:</strong> Identificar riesgos asociados al consumo de contenido digital y fomentar un uso consciente.</li>
+                    </ul>
+                `,
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro", guide: `Hoy seremos detectives buscando tesoros en internet. El tesoro es encontrar algo que nos apasione.
-
-**Paso 1:** Abrid YouTube o Instagram.
-
-**Paso 2:** Buscad el icono de la lupa (🔍), que es para buscar. Tocadlo.
-
-**Paso 3:** Escribid una palabra sobre algo que os encante. Por ejemplo: "jardinería para principiantes", "recetas fáciles" o "música de los 80".
-
-**Paso 4:** Mirad los resultados que aparecen. Entrad en un par de vídeos o perfiles. No hay que hacer nada más, solo explorar y descubrir qué hay sobre vuestros gustos. ¡A investigar!` },
-                    { level: "Nivel 2: Interactivo", title: "Guardar para Después", guide: `¿Habéis encontrado un vídeo o una publicación interesante pero no tenéis tiempo de verlo ahora? ¡Hay solución!
-
-**Paso 1:** En YouTube, debajo de un vídeo, veréis un botón que dice "Guardar". En Instagram, es un icono como una etiqueta o marcapáginas.
-
-**Paso 2:** Tocad ese botón en un vídeo o foto que os guste. ¡Listo!
-
-**Paso 3:** Ahora, preguntad al formador dónde encontrar la sección de "Guardados" o la lista de "Ver más tarde".
-
-**Paso 4:** Comprobad que el vídeo o la foto que habéis guardado está ahí. Es como tener vuestra propia biblioteca de cosas interesantes para cuando tengáis un rato libre.` },
-                    { level: "Nivel 3: Creador", title: "Mi Lista de Intereses", guide: `Vamos a organizar nuestros descubrimientos. Es una tarea sin ordenador, solo con papel y boli.
-
-**Paso 1:** Coged un papel y un bolígrafo.
-
-**Paso 2:** Pensad en la actividad de "Búsqueda del Tesoro". Recordad los perfiles o canales que más os llamaron la atención.
-
-**Paso 3:** Escribid en el papel el nombre de TRES de ellos. Por ejemplo: "1. Canal de recetas de la abuela", "2. Perfil de fotos de gatos", "3. Vídeos de viajes por España".
-
-**Paso 4:** ¡Ya está! Acabáis de crear vuestra primera "lista de seguimiento" de contenido. Tenerla en papel os ayudará a recordarlos para la próxima vez.` },
-                    { level: "Nivel 4: Conector", title: "Compartir un Descubrimiento", guide: `Compartir es una de las cosas más bonitas de internet. ¡Vamos a probarlo!
-
-**Paso 1:** Id a ese vídeo de YouTube o perfil de Instagram que tanto os gustó.
-
-**Paso 2:** Buscad el botón o icono de "Compartir". Suele ser una flecha (→ o Share).
-
-**Paso 3:** Al tocarlo, aparecerán varias opciones. Elegid "WhatsApp".
-
-**Paso 4:** Se abrirá vuestra lista de contactos de WhatsApp. Elegid a un compañero del curso o al grupo de la clase y enviádselo.
-
-¡Perfecto! Acabáis de compartir algo que os gusta con otra persona. Así es como se crean las conversaciones y se descubren cosas nuevas.` }
+                    { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro", guide: `Hoy seremos detectives buscando tesoros en internet. El tesoro es encontrar algo que nos apasione.\n\n**Paso 1:** Abrid YouTube o Instagram...\n**Paso 2:** Buscad el icono de la lupa (🔍)...\n**Paso 3:** Escribid una palabra sobre algo que os encante (ej. "jardinería")...\n**Paso 4:** Mirad los resultados y explorad un par de perfiles sin interactuar.` },
+                    { level: "Nivel 2: Interactivo", title: "Guardar para Después", guide: `¿Habéis encontrado un vídeo interesante pero no tenéis tiempo? ¡Hay solución!\n\n**Paso 1:** En YouTube o Instagram, buscad el botón "Guardar"...\n**Paso 2:** Tocad ese botón en un vídeo o foto que os guste...\n**Paso 3:** Preguntad al formador dónde encontrar la sección de "Guardados"...\n**Paso 4:** Comprobad que vuestro contenido está allí.` },
+                    { level: "Nivel 3: Creador", title: "Mi Lista de Intereses", guide: `Vamos a organizar nuestros descubrimientos con papel y boli.\n\n**Paso 1:** Coged un papel y un bolígrafo...\n**Paso 2:** Pensad en la actividad anterior...\n**Paso 3:** Escribid el nombre de TRES canales o perfiles que os han gustado...\n**Paso 4:** ¡Ya tenéis vuestra primera "lista de seguimiento" de contenido!` },
+                    { level: "Nivel 4: Conector", title: "Compartir un Descubrimiento", guide: `Compartir es una de las cosas más bonitas de internet. ¡Vamos a probarlo!\n\n**Paso 1:** Id a ese vídeo de YouTube o perfil de Instagram que tanto os gustó...\n**Paso 2:** Buscad el botón o icono de "Compartir"...\n**Paso 3:** Elegid la opción "WhatsApp"...\n**Paso 4:** Enviádselo a un compañero o al grupo de la clase.` }
                 ]
             },
             {
                 courseNumber: 9,
-                title: "Bienestar digital y consumo consciente",
+                title: "Bienestar digital: desconecta, consume con consciencia y crea un entorno digital seguro",
                 description: "Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.",
+                details: `
+                    <h3>Plan de Estudios</h3>
+                    <ul>
+                        <li><strong>Desconexión Digital:</strong> Entender la necesidad de desconectar y conocer herramientas para gestionarlo.</li>
+                        <li><strong>Matching y Hating:</strong> Comprender qué es el "matching" (búsqueda de afinidad) y el "hating" (odio en redes), y aprender estrategias para gestionar ambos.</li>
+                        <li><strong>Netiquetas:</strong> Aprender las normas básicas de cortesía y comportamiento en el entorno digital.</li>
+                        <li><strong>Consumo Sano de Información:</strong> Estrategias para un consumo de noticias y contenido que no genere ansiedad.</li>
+                    </ul>
+                `,
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "Identifica tus Emociones", guide: `Hoy vamos a hablar de sentimientos, algo muy importante en las redes.
-
-**Paso 1:** El formador os mostrará en la pantalla grande varios ejemplos de comentarios: unos muy amables y otros... no tanto.
-
-**Paso 2:** No hay que escribir nada. Solo leerlos y pensar: ¿Cómo me haría sentir si este comentario fuera para mí? ¿Feliz? ¿Triste? ¿Enfadado?
-
-**Paso 3:** Pondremos en común lo que hemos sentido. Veremos que a todos nos afectan las palabras, para bien y para mal.
-
-**Paso 4:** El objetivo es aprender a reconocer los comentarios que nos hacen bien y los que no. Es el primer paso para protegernos.` },
-                    { level: "Nivel 2: Interactivo", title: "El Botón de Silenciar", guide: `A veces, necesitamos un poco de paz y silencio. Vamos a aprender a conseguirla.
-
-**Paso 1:** Abrid vuestro WhatsApp y buscad un grupo que tenga muchas notificaciones (¡no tiene por qué ser el del curso!).
-
-**Paso 2:** Mantened pulsado el dedo sobre el nombre del grupo hasta que aparezca un menú arriba.
-
-**Paso 3:** Buscad un icono de un altavoz tachado (🔇). Tocadlo. Os preguntará por cuánto tiempo queréis silenciarlo. Elegid "8 horas" o "1 semana".
-
-**Paso 4:** ¡Listo! Habéis silenciado las notificaciones. Seguiréis recibiendo los mensajes, pero el móvil ya no sonará todo el rato. Vosotros tenéis el control.` },
-                    { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", guide: `Hoy vamos a repartir un poco de alegría por las redes.
-
-**Paso 1:** Id a una publicación que os guste en Instagram, Facebook o YouTube.
-
-**Paso 2:** Tocad en la opción de "Añadir un comentario".
-
-**Paso 3:** Escribid algo bonito y sencillo. No tiene que ser largo. Un "Gracias por compartir" o "¡Qué interesante!" es perfecto.
-
-**Paso 4:** Enviadlo. Vuestro mensaje puede alegrarle el día a alguien. Ser amables en internet es una habilidad muy poderosa.` },
-                    { level: "Nivel 4: Conector", title: "Pacto de Desconexión", guide: `Vamos a hacer un experimento juntos para demostrar que podemos vivir sin el móvil.
-
-**Paso 1:** Todos juntos, vamos a poner nuestro móvil en silencio.
-
-**Paso 2:** Lo vamos a dejar boca abajo sobre la mesa.
-
-**Paso 3:** Haremos un pacto de grupo: durante los próximos 15 minutos, nadie puede mirar el móvil.
-
-**Paso 4:** Aprovecharemos ese tiempo para charlar con el compañero de al lado. Al terminar, hablaremos de cómo nos hemos sentido. ¿Ha sido difícil? ¿Liberador? Aprender a desconectar es clave para nuestro bienestar.` }
+                    { level: "Nivel 1: Explorador", title: "Identifica tus Emociones", guide: `Hoy vamos a hablar de sentimientos, algo muy importante en las redes.\n\n**Paso 1:** El formador os mostrará ejemplos de comentarios amables y otros desagradables...\n**Paso 2:** Solo leerlos y pensar: ¿Cómo me haría sentir esto?...\n**Paso 3:** Pondremos en común lo que hemos sentido...\n**Paso 4:** El objetivo es aprender a reconocer los comentarios que nos hacen bien y los que no.` },
+                    { level: "Nivel 2: Interactivo", title: "El Botón de Silenciar", guide: `A veces, necesitamos un poco de paz. Vamos a aprender a conseguirla.\n\n**Paso 1:** Abrid vuestro WhatsApp y buscad un grupo con muchas notificaciones...\n**Paso 2:** Mantened pulsado sobre el nombre del grupo...\n**Paso 3:** Buscad un icono de un altavoz tachado (🔇) y tocadlo...\n**Paso 4:** ¡Listo! Habéis silenciado las notificaciones. Vosotros tenéis el control.` },
+                    { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", guide: `Hoy vamos a repartir un poco de alegría por las redes.\n\n**Paso 1:** Id a una publicación que os guste en cualquier red social...\n**Paso 2:** Tocad en la opción de "Añadir un comentario"...\n**Paso 3:** Escribid algo bonito y sencillo, como "Gracias por compartir"...\n**Paso 4:** Enviadlo. Vuestro mensaje puede alegrarle el día a alguien.` },
+                    { level: "Nivel 4: Conector", title: "Pacto de Desconexión", guide: `Vamos a hacer un experimento juntos para demostrar que podemos vivir sin el móvil.\n\n**Paso 1:** Todos juntos, vamos a poner nuestro móvil en silencio...\n**Paso 2:** Lo vamos a dejar boca abajo sobre la mesa...\n**Paso 3:** Haremos un pacto de grupo: durante 15 minutos, nadie puede mirar el móvil...\n**Paso 4:** Aprovecharemos ese tiempo para charlar. Al terminar, hablaremos de cómo nos hemos sentido.` }
                 ]
             },
             {
                 courseNumber: 10,
-                title: "Domina el arte de las presentaciones",
+                title: "Impacto presente: domina el arte de las presentaciones para impresionar a tu audiencia",
                 description: "Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.",
+                 details: `
+                    <h3>Plan de Estudios</h3>
+                    <ul>
+                        <li><strong>Fundamentos de las Presentaciones:</strong> Estructura de una presentación efectiva y recomendaciones clave.</li>
+                        <li><strong>Diseño Visual:</strong> Nociones básicas sobre tipografía, uso del color e imágenes para que una diapositiva sea clara y atractiva. Errores comunes a evitar.</li>
+                        <li><strong>Comunicación Efectiva:</strong> Consejos sobre comunicación verbal, lenguaje corporal e interacción con la audiencia.</li>
+                    </ul>
+                `,
                  activities: [
-                    { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", guide: `Hoy vamos a ser críticos de arte, pero con diapositivas.
-
-**Paso 1:** El formador proyectará dos ejemplos de diapositivas. Una será muy clara y bonita, y la otra estará muy cargada de texto y con colores feos.
-
-**Paso 2:** Observadlas bien. No hay que hacer nada en el ordenador, solo mirar.
-
-**Paso 3:** Haremos una lluvia de ideas en voz alta: ¿Qué tiene la diapositiva buena que nos gusta? (Poco texto, una imagen grande, colores agradables).
-
-**Paso 4:** ¿Y qué tiene la mala que no nos gusta? (Mucho texto, difícil de leer, colores que hacen daño a la vista). Aprender a diferenciar lo bueno de lo malo es el primer paso para crear bien.` },
-                    { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla", guide: `Vamos a empezar a diseñar, ¡pero con ayuda! Usaremos las plantillas.
-
-**Paso 1:** Abrid el programa de presentaciones (PowerPoint o Google Slides).
-
-**Paso 2:** Al crear una presentación nueva, el programa os ofrecerá un montón de "Diseños" o "Plantillas".
-
-**Paso 3:** Haced clic en varias de ellas para ver cómo cambian los colores y las letras de la diapositiva.
-
-**Paso 4:** Elegid la que más os guste. La que os parezca más clara o más bonita. ¡Ya tenéis la base para vuestra presentación!` },
-                    { level: "Nivel 3: Creador", title: "La Diapositiva de Título", guide: `¡Manos a la obra! Vamos a crear la portada de nuestra presentación.
-
-**Paso 1:** Con la plantilla que elegisteis antes, haced clic donde pone "Haga clic para agregar título".
-
-**Paso 2:** Escribid un título sobre vuestro hobby o algo que os guste. Por ejemplo: "Mi Pasión por las Plantas" o "Viajar en Tren".
-
-**Paso 3:** Ahora, haced clic donde pone "Haga clic para agregar subtítulo" y escribid vuestro nombre.
-
-**Paso 4:** ¡Ya está! Habéis creado la diapositiva más importante, la que presenta vuestra idea. ¡Guardad el archivo!` },
-                    { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", guide: `Hoy vamos a ser ponentes, ¡pero solo durante un minuto!
-
-**Paso 1:** El formador os ayudará a proyectar en la pantalla grande la diapositiva de título que creasteis en la actividad anterior.
-
-**Paso 2:** Cuando aparezca vuestra diapositiva, os levantaréis y simplemente diréis vuestro nombre y el título de vuestra presentación.
-
-**Paso 3:** Podéis añadir una frase, como por ejemplo: "Hola, soy Juan y os voy a hablar de mi pasión por las plantas".
-
-**Paso 4:** ¡Listo! El resto de compañeros os daremos un fuerte aplauso. Es el primer paso para hablar en público y compartir vuestras ideas.` }
+                    { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", guide: `Hoy vamos a ser críticos de arte, pero con diapositivas.\n\n**Paso 1:** El formador proyectará dos ejemplos: una diapositiva clara y otra muy cargada...\n**Paso 2:** Observadlas bien, solo mirar...\n**Paso 3:** Haremos una lluvia de ideas: ¿Qué tiene la diapositiva buena que nos gusta?...\n**Paso 4:** ¿Y qué tiene la mala que no nos gusta? Aprender a diferenciar es el primer paso.` },
+                    { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla", guide: `Vamos a empezar a diseñar, ¡pero con ayuda!\n\n**Paso 1:** Abrid el programa de presentaciones (PowerPoint o similar)...\n**Paso 2:** Al crear una nueva, explorad los "Diseños" o "Plantillas" que ofrece...\n**Paso 3:** Haced clic en varias para ver cómo cambian los colores y las letras...\n**Paso 4:** Elegid la que más os guste. ¡Ya tenéis la base!` },
+                    { level: "Nivel 3: Creador", title: "La Diapositiva de Título", guide: `¡Manos a la obra! Vamos a crear la portada de nuestra presentación.\n\n**Paso 1:** Con la plantilla elegida, haced clic donde pone "Haga clic para agregar título"...\n**Paso 2:** Escribid un título sobre vuestro hobby...\n**Paso 3:** Haced clic donde pone "subtítulo" y escribid vuestro nombre...\n**Paso 4:** ¡Ya está! Habéis creado la diapositiva más importante.` },
+                    { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", guide: `Hoy vamos a ser ponentes, ¡pero solo durante un minuto!\n\n**Paso 1:** El formador os ayudará a proyectar vuestra diapositiva de título...\n**Paso 2:** Cuando aparezca, os levantaréis y diréis vuestro nombre y el título...\n**Paso 3:** Podéis añadir una frase, como "Hola, soy Juan y os voy a hablar de mi pasión por las plantas"...\n**Paso 4:** ¡Listo! El resto de compañeros os daremos un fuerte aplauso.` }
                 ]
             },
             {
                 courseNumber: 11,
-                title: "Innova y protege con la IA",
+                title: "Innova y protege: dominando la propiedad intelectual y la IA para tus proyectos",
                 description: "Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.",
+                details: `
+                    <h3>Plan de Estudios</h3>
+                    <ul>
+                        <li><strong>Propiedad Intelectual:</strong> Introducción a qué es, derechos de autor, licencias y cómo usar contenido de otros de forma adecuada.</li>
+                        <li><strong>Inteligencia Artificial para Proyectos:</strong> Qué es la IA y ChatGPT. Cómo acceder y usarlo para generar ideas, tendencias y organizar tareas.</li>
+                        <li><strong>Creación de Imágenes con IA:</strong> Introducción a herramientas como Dall-E para crear imágenes a partir de texto.</li>
+                    </ul>
+                `,
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", guide: `Hoy vamos a conocer a un "genio" digital. Pero primero, tenemos que pensar qué le vamos a pedir.
-
-**Paso 1:** En grupo, vamos a hacer una lluvia de ideas. No usaremos el ordenador todavía.
-
-**Paso 2:** Pensemos en preguntas curiosas o divertidas para hacerle a una Inteligencia Artificial. Por ejemplo: "¿Qué sueñan los robots?", "Invéntate una receta con chocolate y patatas fritas", "Escribe un poema sobre un gato astronauta".
-
-**Paso 3:** Apuntaremos las mejores ideas en la pizarra.
-
-**Paso 4:** El objetivo es entender que a la IA hay que pedirle cosas concretas. ¡Cuanto mejor sea la pregunta, mejor será la respuesta!` },
-                    { level: "Nivel 2: Interactivo", title: "Generando Ideas", guide: `Ahora sí, vamos a pedirle ayuda a la IA.
-
-**Paso 1:** El formador abrirá una herramienta de IA como ChatGPT en la pantalla grande.
-
-**Paso 2:** Le escribiremos una petición clara. Por ejemplo: "Dame 3 ideas de postres fáciles para alguien que nunca ha cocinado".
-
-**Paso 3:** Leeremos juntos las respuestas que nos da la IA. ¿Son buenas ideas? ¿Son fáciles de entender?
-
-**Paso 4:** Veremos cómo la IA puede ser una fuente de inspiración rapidísima para cuando no se nos ocurre nada. ¡Es como tener un ayudante creativo!` },
-                    { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria", guide: `¡Hoy vamos a crear vida... digital! Vamos a inventarnos una mascota.
-
-**Paso 1:** El formador usará una IA que crea imágenes (como Dall-E o Copilot).
-
-**Paso 2:** Le daremos una descripción muy detallada. Por ejemplo: "Dibuja un elefante pequeño, de color azul, con alas de mariposa y que esté comiendo una pizza".
-
-**Paso 3:** Veremos con asombro cómo la IA crea una imagen que no existía a partir de nuestras palabras.
-
-**Paso 4:** ¡Guardaremos la imagen! Ya tenemos nuestra mascota única y original, creada por nosotros con la ayuda de la IA.` },
-                    { level: "Nivel 4: Conector", title: "Galería de Arte IA", guide: `Vamos a montar una exposición de arte con nuestras creaciones.
-
-**Paso 1:** Cada uno mostrará al resto del grupo la imagen de su mascota imaginaria que creó la IA.
-
-**Paso 2:** La explicaremos brevemente: "¿Por qué elegí un elefante azul? Porque es mi color favorito".
-
-**Paso 3:** Haremos una votación a mano alzada para elegir la mascota más divertida o la más original de todas.
-
-**Paso 4:** El objetivo es compartir nuestras creaciones, ver las de los demás y celebrar la creatividad de todos. ¡Felicidades a todos los artistas!` }
+                    { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", guide: `Hoy vamos a conocer a un "genio" digital. Pero primero, tenemos que pensar qué le vamos a pedir.\n\n**Paso 1:** En grupo, haremos una lluvia de ideas sin usar el ordenador...\n**Paso 2:** Pensemos en preguntas curiosas para hacerle a una IA (ej. "Escribe un poema sobre un gato astronauta")...\n**Paso 3:** Apuntaremos las mejores ideas en la pizarra...\n**Paso 4:** El objetivo es entender que a la IA hay que pedirle cosas concretas.` },
+                    { level: "Nivel 2: Interactivo", title: "Generando Ideas", guide: `Ahora sí, vamos a pedirle ayuda a la IA.\n\n**Paso 1:** El formador abrirá una herramienta de IA como ChatGPT en la pantalla grande...\n**Paso 2:** Le escribiremos una petición clara (ej. "Dame 3 ideas de postres fáciles")...\n**Paso 3:** Leeremos juntos las respuestas que nos da la IA...\n**Paso 4:** Veremos cómo la IA puede ser una fuente de inspiración rapidísima.` },
+                    { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria", guide: `¡Hoy vamos a crear vida... digital! Vamos a inventarnos una mascota.\n\n**Paso 1:** El formador usará una IA que crea imágenes...\n**Paso 2:** Le daremos una descripción muy detallada (ej. "Dibuja un elefante pequeño, azul, con alas de mariposa")...\n**Paso 3:** Veremos con asombro cómo la IA crea una imagen que no existía...\n**Paso 4:** ¡Guardaremos la imagen! Ya tenemos nuestra mascota única.` },
+                    { level: "Nivel 4: Conector", title: "Galería de Arte IA", guide: `Vamos a montar una exposición de arte con nuestras creaciones.\n\n**Paso 1:** Cada uno mostrará al grupo la imagen de su mascota imaginaria...\n**Paso 2:** La explicaremos brevemente...\n**Paso 3:** Haremos una votación a mano alzada para elegir la más divertida...\n**Paso 4:** El objetivo es compartir nuestras creaciones y celebrar la creatividad.` }
                 ]
             },
             {
                 courseNumber: 12,
-                title: "Impulsa tu identidad digital",
+                title: "Impulsa tu identidad digital: estrategias para convertirte en un influencer exitoso",
                 description: "Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.",
+                details: `
+                    <h3>Plan de Estudios</h3>
+                    <ul>
+                        <li><strong>Identidad Digital y Marca Personal:</strong> Qué es la identidad digital y cómo construir una marca personal (público, mensajes, valores).</li>
+                        <li><strong>Rol del Influencer Digital:</strong> Tipos de influencers, elementos que impactan, monetización y colaboraciones.</li>
+                        <li><strong>Estrategias de Contenido Atractivo:</strong> Establecer objetivos, cómo acompañar fotos y vídeos, e interacción con la comunidad.</li>
+                        <li><strong>Planificación y Organización:</strong> Uso de herramientas como el Calendario de Google para organizar nuestras publicaciones.</li>
+                    </ul>
+                `,
                 activities: [
-                    { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", guide: `Hoy vamos a hacer un ejercicio de autoconocimiento. Solo necesitamos papel y boli.
-
-**Paso 1:** Dobla un folio por la mitad.
-
-**Paso 2:** En un lado, escribe "Cosas que me gustan mucho". Y haz una lista de al menos 3 cosas. Por ejemplo: las plantas, pasear por la playa, el cine clásico.
-
-**Paso 3:** En el otro lado, escribe "Cosas que se me dan bien". Por ejemplo: escuchar a los demás, hacer bizcochos, contar chistes.
-
-**Paso 4:** Mira tu lista. Esa es la base de tu "marca personal". Son los temas de los que podrías hablar en internet porque te apasionan y se te dan bien. ¡Es tu punto de partida!` },
-                    { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", guide: `Vamos a darle color a nuestra marca personal.
-
-**Paso 1:** El formador os mostrará una rueda de colores o varias paletas de colores.
-
-**Paso 2:** Pensad en vuestra personalidad. ¿Sois alegres y enérgicos? Quizás os gusten el amarillo y el naranja. ¿Sois tranquilos y serenos? Quizás el azul y el verde.
-
-**Paso 3:** Elegid dos o tres colores que creáis que os representan. No hay respuestas correctas o incorrectas.
-
-**Paso 4:** Apuntadlos. Esos serán "vuestros colores". Usarlos en vuestras creaciones (como en las presentaciones) hará que todo tenga un estilo más personal y reconocible.` },
-                    { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", guide: `Vamos a resumir quiénes somos en una sola frase. ¡Es todo un reto!
-
-**Paso 1:** Coge el papel donde apuntaste las cosas que te gustan y se te dan bien.
-
-**Paso 2:** Intenta crear una frase corta que te describa. Por ejemplo: "Amante de las plantas y aprendiz de repostero" o "Disfrutando de la jubilación entre paseos por la playa y buen cine".
-
-**Paso 3:** Escríbela. No te preocupes si no sale perfecta a la primera. Puedes hacer varios borradores.
-
-**Paso 4:** Esta frase es vuestra "biografía" o "bio". Es lo primero que la gente leería sobre vosotros en un perfil. ¡Buen trabajo!` },
-                    { level: "Nivel 4: Conector", title: "Feedback de Compañeros", guide: `El último paso es compartir y ayudarnos mutuamente.
-
-**Paso 1:** Leeremos en voz alta, de forma voluntaria, la frase de presentación que hemos creado.
-
-**Paso 2:** El resto de compañeros escucharemos con atención.
-
-**Paso 3:** Daremos nuestra opinión, pero siempre de forma constructiva y amable. Por ejemplo: "Me gusta mucho tu frase, suena muy alegre" o "¿Y si pruebas a añadir la palabra 'apasionado'?".
-
-**Paso 4:** El objetivo es ayudarnos a pulir nuestra presentación. Recibir la opinión de los demás es un regalo que nos ayuda a mejorar. ¡Felicidades por completar este viaje!` }
+                    { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", guide: `Hoy vamos a hacer un ejercicio de autoconocimiento. Solo necesitamos papel y boli.\n\n**Paso 1:** Dobla un folio por la mitad...\n**Paso 2:** En un lado, escribe "Cosas que me gustan mucho" y haz una lista...\n**Paso 3:** En el otro lado, escribe "Cosas que se me dan bien" y haz otra lista...\n**Paso 4:** Mira tu lista. Esa es la base de tu "marca personal".` },
+                    { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", guide: `Vamos a darle color a nuestra marca personal.\n\n**Paso 1:** El formador os mostrará varias paletas de colores...\n**Paso 2:** Pensad en vuestra personalidad y qué colores os representan...\n**Paso 3:** Elegid dos o tres colores que creáis que os representan...\n**Paso 4:** Apuntadlos. Esos serán "vuestros colores" para dar un estilo personal.` },
+                    { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", guide: `Vamos a resumir quiénes somos en una sola frase. ¡Es todo un reto!\n\n**Paso 1:** Coge el papel con tus listas de gustos y habilidades...\n**Paso 2:** Intenta crear una frase corta que te describa (ej. "Amante de las plantas y aprendiz de repostero")...\n**Paso 3:** Escríbela. No te preocupes si no sale perfecta a la primera...\n**Paso 4:** Esta frase es vuestra "biografía" o "bio" de perfil.` },
+                    { level: "Nivel 4: Conector", title: "Feedback de Compañeros", guide: `El último paso es compartir y ayudarnos mutuamente.\n\n**Paso 1:** Leeremos en voz alta, de forma voluntaria, nuestra frase de presentación...\n**Paso 2:** El resto de compañeros escucharemos con atención...\n**Paso 3:** Daremos nuestra opinión, siempre de forma constructiva y amable...\n**Paso 4:** El objetivo es ayudarnos a pulir nuestra presentación. Recibir opiniones es un regalo.` }
                 ]
             }
         ];
@@ -356,18 +245,30 @@
             const courseElement = document.createElement('div');
             courseElement.className = 'mb-10 pl-8 relative timeline-item';
             
-            const activitiesHTML = course.activities.map((activity, index) => `
+            const activitiesHTML = course.activities.length > 0 ? course.activities.map((activity, index) => `
                 <div class="bg-white p-3 rounded-md shadow-sm mt-3">
-                    <h4 class="font-bold text-gray-800">${activity.level}: ${activity.title}</h4>
+                    <button class="activity-toggle w-full text-left font-bold text-gray-800 flex justify-between items-center">
+                        <span>${activity.level}: ${activity.title}</span>
+                        <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                    </button>
                     <div class="guide-container">
                         <p class="guide-text mt-2 pt-2 border-t text-gray-700">${activity.guide}</p>
                     </div>
                 </div>
-            `).join('');
+            `).join('') : '<p class="text-center italic text-gray-500 py-4">Las actividades para este curso se añadirán próximamente.</p>';
 
             courseElement.innerHTML = `
                 <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
                 <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md">${course.description}</p>
+                
+                <button class="details-toggle mt-4 bg-blue-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors w-full text-left flex justify-between items-center">
+                    <span>Ver Plan de Estudios Completo</span>
+                    <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                </button>
+                <div class="details-container mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                    <div class="details-content">${course.details}</div>
+                </div>
+
                 <button class="main-activities-toggle mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors w-full text-left flex justify-between items-center">
                     <span>Ver Actividades Propuestas</span>
                     <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
@@ -379,25 +280,50 @@
             coursesContainer.appendChild(courseElement);
         });
 
-        document.querySelectorAll('.main-activities-toggle').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const mainContainer = e.currentTarget.nextElementSibling;
-                const icon = e.currentTarget.querySelector('svg');
+        function toggleAccordion(button, container) {
+            const icon = button.querySelector('svg');
+            if (container.style.maxHeight) {
+                container.style.maxHeight = null;
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                container.style.maxHeight = container.scrollHeight + "px";
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
 
-                // Toggle the main container
-                if (mainContainer.style.maxHeight) {
-                    mainContainer.style.maxHeight = null;
-                    if (icon) icon.style.transform = 'rotate(0deg)';
-                } else {
-                    // To show all content, we set its max-height to its full scrollable height
-                    mainContainer.style.maxHeight = mainContainer.scrollHeight + "px";
-                    if (icon) icon.style.transform = 'rotate(180deg)';
-                    
-                    // Now, we also expand all the inner guides
-                    mainContainer.querySelectorAll('.guide-container').forEach(guide => {
-                        guide.style.maxHeight = guide.scrollHeight + "px";
-                    });
-                }
+        document.querySelectorAll('.details-toggle').forEach(button => {
+            button.addEventListener('click', (e) => toggleAccordion(e.currentTarget, e.currentTarget.nextElementSibling));
+        });
+
+        document.querySelectorAll('.main-activities-toggle').forEach(button => {
+            button.addEventListener('click', (e) => toggleAccordion(e.currentTarget, e.currentTarget.nextElementSibling));
+        });
+        
+        document.querySelectorAll('.activity-toggle').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const clickedButton = e.currentTarget;
+                const guideContainer = clickedButton.nextElementSibling;
+                const mainContainer = clickedButton.closest('.activities-container');
+                
+                const isOpening = !guideContainer.style.maxHeight;
+
+                // Close all other guides within the same course section
+                mainContainer.querySelectorAll('.guide-container').forEach(otherGuide => {
+                    if (otherGuide !== guideContainer) {
+                        otherGuide.style.maxHeight = null;
+                        otherGuide.previousElementSibling.querySelector('svg').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Toggle the clicked guide
+                toggleAccordion(clickedButton, guideContainer);
+                
+                // Recalculate the main container's height after animations
+                setTimeout(() => {
+                     if (mainContainer.style.maxHeight) {
+                        mainContainer.style.maxHeight = mainContainer.scrollHeight + "px";
+                    }
+                }, 500); 
             });
         });
 
