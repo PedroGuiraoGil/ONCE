@@ -24,10 +24,10 @@
             background-color: white;
             border: 4px solid #2196F3; /* Blue-500 */
         }
-        .details-container, .guide-container, .module-content-container {
+        .details-container {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+            transition: max-height 0.7s ease-in-out;
         }
         .details-content h3 {
             font-size: 1.25rem; /* text-xl */
@@ -43,20 +43,28 @@
             margin-bottom: 0.5rem; /* mb-2 */
             color: #1d4ed8; /* blue-700 */
         }
-        .details-content p {
+         .details-content h5 {
+            font-size: 1rem; /* text-lg */
+            font-weight: 700; /* font-bold */
+            margin-top: 1rem; /* mt-4 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #1e40af; /* blue-800 */
+        }
+        .details-content p, .details-content li {
             margin-bottom: 0.75rem; /* mb-3 */
+            line-height: 1.7;
         }
         .details-content ul {
             list-style-position: inside;
             margin-left: 0.5rem; /* ml-2 */
             margin-bottom: 1rem; /* mb-4 */
         }
-         .details-content li {
-            margin-bottom: 0.5rem; /* mb-2 */
-        }
-        .guide-text, .module-text {
-            white-space: pre-wrap;
-            line-height: 1.7;
+        .activity-block {
+            background-color: #f0f9ff; /* sky-50 */
+            border-left: 4px solid #3b82f6; /* blue-500 */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.25rem;
         }
     </style>
 </head>
@@ -110,384 +118,329 @@
     </div>
 
     <script>
-        const coursesData = [
-            {
-                courseNumber: 7,
-                title: "Conecta y comparte tu creatividad en el mundo digital",
-                description: "Aprenderemos a crear y compartir nuestro propio contenido (fotos y vídeos) en un entorno seguro y controlado como WhatsApp.",
-                plan: {
-                    description: "Este curso se centra en perder el miedo a crear y compartir. Empezaremos explorando qué son las redes sociales, aprenderemos a hacer fotos de calidad con el móvil y terminaremos compartiendo nuestras creaciones en un Canal de WhatsApp, un espacio privado y seguro.",
-                    days: [
-                        {
-                            title: "DÍA 1: EXPLORACIÓN Y CREACIÓN",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: Explorando Redes Sociales", 
-                                    content: "Objetivo: Entender qué son y para qué sirven las redes sociales (Facebook, Instagram, etc.) y sus formatos (post, historia). Ejemplo: Veremos perfiles de cocina y jardinería para identificar los diferentes tipos de publicaciones.",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "Explorando los Estados de WhatsApp", guide: `¡Vamos a ser detectives en nuestro propio WhatsApp!\n\n**Paso 1:** Abrid WhatsApp y pulsad en la pestaña 'Novedades' (antes se llamaba 'Estados')...\n**Paso 2:** Veréis unos círculos con las fotos de vuestros contactos. Esos son sus 'Estados' o 'Historias'. Son fotos o vídeos que duran solo 24 horas...\n**Paso 3:** Pulsad en uno de ellos para verlo. Podéis pasar al siguiente pulsando en el lado derecho de la pantalla...\n**Paso 4:** ¡Listo! Habéis explorado el formato 'Historia' en un entorno que ya conocéis. Es el primer paso para entender cómo funciona.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: Creación de Contenido Multimedia", 
-                                    content: "Objetivo: Aprender a planificar y crear contenido propio. Ejemplo: Haremos 3 fotos a una planta aplicando las reglas de luz, cercanía y sujeción firme para ver la diferencia.",
-                                    activities: [
-                                         { level: "Nivel 2: Interactivo", title: "Fotografía de Calidad con el Móvil", guide: `Vamos a convertirnos en fotógrafos por un día, aplicando lo aprendido.\n\n**Paso 1:** Coged vuestro móvil...\n**Paso 2:** Buscad un objeto en la sala para fotografiar (una planta, una taza)...\n**Paso 3:** Haced tres fotos: una normal, otra acercándoos físicamente (sin zoom) y otra buscando una buena fuente de luz (cerca de una ventana)...\n**Paso 4:** Comparad las tres fotos en vuestra galería. ¿Notáis la diferencia?` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: COMPARTICIÓN Y PRÁCTICA",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Compartiendo con WhatsApp", 
-                                    content: "Objetivo: Aprender a usar WhatsApp para compartir contenido de forma segura. Ejemplo: Crearemos un Canal de WhatsApp para el grupo, le pondremos un nombre y publicaremos nuestra mejor foto del día anterior.",
-                                    activities: [
-                                        { level: "Nivel 3: Creador", title: "Compartiendo en el Grupo de WhatsApp", guide: `¡Es hora de compartir nuestra obra de arte!\n\n**Paso 1:** Abrid la galería de vuestro móvil y elegid la mejor de las tres fotos que hicisteis antes...\n**Paso 2:** Abrid WhatsApp y buscad el grupo de nuestro curso...\n**Paso 3:** Usad el icono del clip (📎) para adjuntar la foto desde la galería...\n**Paso 4:** Antes de enviar, escribid un texto corto como "¡Mi foto de práctica!". ¡Y enviadla!` },
-                                        { level: "Nivel 4: Conector", title: "Creando Nuestro Canal de WhatsApp", guide: `Vamos a crear nuestro propio espacio para compartir, como un álbum digital privado.\n\n**Paso 1:** En WhatsApp, id a la pestaña 'Novedades'...\n**Paso 2:** Pulsad el símbolo '+' al lado de 'Canales' y seleccionad 'Crear canal'...\n**Paso 3:** Ponedle un nombre, por ejemplo, "El Rincón de [Vuestro Nombre]" y una breve descripción...\n**Paso 4:** ¡Listo! Publicad vuestra primera foto en el canal para estrenarlo. Acabáis de crear vuestro propio medio de comunicación.` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+        document.addEventListener('DOMContentLoaded', function() {
+            const coursesData = [
+                {
+                    courseNumber: 7,
+                    title: "Conecta y comparte tu creatividad en el mundo digital",
+                    description: "Aprenderemos a crear y compartir nuestro propio contenido (fotos y vídeos) en un entorno seguro y controlado como WhatsApp.",
+                    plan: {
+                        description: "Este curso se centra en perder el miedo a crear y compartir. Empezaremos explorando qué son las redes sociales, aprenderemos a hacer fotos de calidad con el móvil y terminaremos compartiendo nuestras creaciones en un Canal de WhatsApp, un espacio privado y seguro.",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: Exploración del contenido multimedia en redes sociales", 
+                                        content: "Objetivo: Entender qué son y para qué sirven las redes sociales (Facebook, Instagram, etc.) y sus formatos (post, historia). Ejemplo: Veremos perfiles de cocina y jardinería para identificar los diferentes tipos de publicaciones.",
+                                        activities: [
+                                            { title: "Explorando los Estados de WhatsApp", guide: `¡Vamos a ser detectives en nuestro propio WhatsApp!\n\nPaso 1: Abrid WhatsApp y pulsad en la pestaña 'Novedades' (antes se llamaba 'Estados').\nPaso 2: Veréis unos círculos con las fotos de vuestros contactos. Esos son sus 'Estados' o 'Historias'. Son fotos o vídeos que duran solo 24 horas.\nPaso 3: Pulsad en uno de ellos para verlo. Podéis pasar al siguiente pulsando en el lado derecho de la pantalla.\nPaso 4: ¡Listo! Habéis explorado el formato 'Historia' en un entorno que ya conocéis. Es el primer paso para entender cómo funciona.` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 2: Creación de contenido multimedia", 
+                                        content: "Objetivo: Aprender a planificar y crear contenido propio. Ejemplo: Haremos 3 fotos a una planta aplicando las reglas de luz, cercanía y sujeción firme para ver la diferencia.",
+                                        activities: [
+                                             { title: "Fotografía de Calidad con el Móvil", guide: `Vamos a convertirnos en fotógrafos por un día, aplicando lo aprendido.\n\nPaso 1: Coged vuestro móvil.\nPaso 2: Buscad un objeto en la sala para fotografiar (una planta, una taza).\nPaso 3: Haced tres fotos: una normal, otra acercándoos físicamente (sin zoom) y otra buscando una buena fuente de luz (cerca de una ventana).\nPaso 4: Comparad las tres fotos en vuestra galería. ¿Notáis la diferencia?` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 3: Compartición de contenido multimedia para redes sociales. Whatsapp", 
+                                        content: "Objetivo: Aprender a usar WhatsApp para compartir contenido de forma segura. Ejemplo: Crearemos un Canal de WhatsApp para el grupo, le pondremos un nombre y publicaremos nuestra mejor foto del día anterior.",
+                                        activities: [
+                                            { title: "Compartiendo en el Grupo de WhatsApp", guide: `¡Es hora de compartir nuestra obra de arte!\n\nPaso 1: Abrid la galería de vuestro móvil y elegid la mejor de las tres fotos que hicisteis antes.\nPaso 2: Abrid WhatsApp y buscad el grupo de nuestro curso.\nPaso 3: Usad el icono del clip (📎) para adjuntar la foto desde la galería.\nPaso 4: Antes de enviar, escribid un texto corto como "¡Mi foto de práctica!". ¡Y enviadla!` },
+                                            { title: "Creando Nuestro Canal de WhatsApp", guide: `Vamos a crear nuestro propio espacio para compartir, como un álbum digital privado.\n\nPaso 1: En WhatsApp, id a la pestaña 'Novedades'.\nPaso 2: Pulsad el símbolo '+' al lado de 'Canales' y seleccionad 'Crear canal'.\nPaso 3: Ponedle un nombre, por ejemplo, "El Rincón de [Vuestro Nombre]" y una breve descripción.\nPaso 4: ¡Listo! Publicad vuestra primera foto en el canal para estrenarlo. Acabáis de crear vuestro propio medio de comunicación.` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    courseNumber: 8,
+                    title: "Descubre, consume y comparte contenido de calidad",
+                    description: "Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.",
+                    plan: {
+                        description: "En este curso aprenderemos a ser 'exploradores digitales'. El objetivo es saber buscar y encontrar contenido que realmente nos interese y nos aporte valor, diferenciándolo del que no es fiable. Practicaremos en varias plataformas y aprenderemos a consumir información de forma responsable.",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: Perfiles dedicados a la creación y compartición de contenido digital", 
+                                        content: "Objetivo: Aprender a identificar qué hace a un perfil fiable. Ejemplo: Compararemos un perfil de un medio de comunicación conocido con otro de noticias falsas para ver las diferencias.",
+                                        activities: [
+                                            { title: "Búsqueda del Tesoro en YouTube", guide: `Hoy seremos detectives buscando tesoros en YouTube.\n\nPaso 1: Abrid YouTube.\nPaso 2: Usad la lupa (🔍) para buscar algo que os guste (ej. "documentales de animales").\nPaso 3: De la lista de resultados, haced clic en un vídeo que os llame la atención por su título o imagen.\nPaso 4: Mirad solo el primer minuto del vídeo. El objetivo es practicar la búsqueda y selección.` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 2: Redes sociales", 
+                                        content: "Objetivo: Encontrar contenido de calidad sobre nuestros hobbies. Ejemplo: Haremos una búsqueda guiada en Facebook o Instagram sobre 'recetas de cocina' y guardaremos dos perfiles que parezcan interesantes.",
+                                        activities: [
+                                            { title: "Guardar para Después", guide: `¿Habéis encontrado un vídeo interesante pero no tenéis tiempo? ¡Hay solución!\n\nPaso 1: En YouTube, debajo del vídeo, buscad el botón "Guardar".\nPaso 2: Tocad ese botón. Os dará la opción de guardarlo en la lista "Ver más tarde".\nPaso 3: Id a vuestra 'Biblioteca' en YouTube y comprobad que el vídeo está en la lista 'Ver más tarde'.\nPaso 4: ¡Ahora ya sabéis cómo crear vuestra propia lista de programas para cuando queráis!` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 3: Plataformas para consumir y compartir contenido digital: Youtube", 
+                                        content: "Objetivo: Aprender a navegar y buscar en la plataforma de vídeo más grande. Ejemplo: Buscaremos un vídeo sobre cómo podar un rosal y aprenderemos a usar los controles de pausa y volumen.",
+                                        activities: [
+                                            { title: "Mi Lista de Canales Favoritos", guide: `Vamos a organizar nuestros descubrimientos con papel y boli.\n\nPaso 1: Coged un papel y un bolígrafo.\nPaso 2: Pensad en la actividad de búsqueda. Recordad los canales que más os gustaron.\nPaso 3: Escribid el nombre de TRES de esos canales de YouTube.\nPaso 4: ¡Ya tenéis vuestra primera "guía de TV" personalizada!` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 4: Prácticas de consumo digital responsable", 
+                                        content: "Objetivo: Entender los riesgos de la desinformación. Ejemplo: Veremos un vídeo corto sobre cómo se crea un bulo y debatiremos en grupo cómo nos protegeríamos de él.",
+                                        activities: [
+                                            { title: "Recomendar un Vídeo", guide: `Vamos a compartir un vídeo interesante con el grupo.\n\nPaso 1: Id a ese vídeo de YouTube que tanto os gustó.\nPaso 2: Buscad el botón "Compartir" (suele ser una flecha).\nPaso 3: Elegid la opción "WhatsApp".\nPaso 4: Enviádselo al grupo del curso con un mensaje como "¡Os recomiendo este vídeo!".` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    courseNumber: 9,
+                    title: "Bienestar digital y consumo consciente",
+                    description: "Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.",
+                     plan: {
+                        description: "Este curso es fundamental para aprender a cuidarnos en el entorno digital. Hablaremos de la importancia de desconectar del móvil, de cómo gestionar las emociones que nos provocan las redes sociales y de cómo comportarnos de forma cívica y respetuosa online.",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: Desconexión digital", 
+                                        content: "Objetivo: Entender la necesidad de poner límites al uso del móvil. Ejemplo: Activaremos el modo 'No Molestar' de nuestro teléfono durante 15 minutos y comentaremos la sensación.",
+                                        activities: [
+                                            { title: "Pacto de Desconexión", guide: `Vamos a hacer un experimento juntos para demostrar que podemos vivir sin el móvil.\n\nPaso 1: Todos juntos, vamos a poner nuestro móvil en silencio.\nPaso 2: Lo vamos a dejar boca abajo sobre la mesa.\nPaso 3: Haremos un pacto de grupo: durante 15 minutos, nadie puede mirar el móvil.\nPaso 4: Aprovecharemos ese tiempo para charlar. Al terminar, hablaremos de cómo nos hemos sentido.` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 2: El Matching y el Hating en el entorno digital", 
+                                        content: "Objetivo: Aprender a identificar y gestionar el odio en redes. Ejemplo: Analizaremos un caso práctico de un comentario negativo y veremos las opciones que tenemos: ignorar, bloquear o denunciar.",
+                                        activities: [
+                                            { title: "Identifica tus Emociones", guide: `Hoy vamos a hablar de sentimientos, algo muy importante en las redes.\n\nPaso 1: El formador os mostrará ejemplos de comentarios amables y otros desagradables.\nPaso 2: Solo leerlos y pensar: ¿Cómo me haría sentir esto?.\nPaso 3: Pondremos en común lo que hemos sentido.\nPaso 4: El objetivo es aprender a reconocer los comentarios que nos hacen bien y los que no.` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 3: Netiquetas y consumo sano de la información digital", 
+                                        content: "Objetivo: Aprender las normas de cortesía online y a consumir noticias sin generar ansiedad. Ejemplo: Haremos un role-playing sobre cómo responder a un correo electrónico formal y a un mensaje de WhatsApp informal.",
+                                        activities: [
+                                            { title: "Mi Mensaje Positivo", guide: `Hoy vamos a repartir un poco de alegría por las redes.\n\nPaso 1: Id a una publicación que os guste en cualquier red social.\nPaso 2: Tocad en la opción de "Añadir un comentario".\nPaso 3: Escribid algo bonito y sencillo, como "Gracias por compartir".\nPaso 4: Enviadlo. Vuestro mensaje puede alegrarle el día a alguien.` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    courseNumber: 10,
+                    title: "Domina el arte de las presentaciones",
+                    description: "Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.",
+                     plan: {
+                        description: "En este curso aprenderemos a comunicar nuestras ideas de forma clara y atractiva. Nos centraremos en cómo estructurar una presentación, cómo diseñar diapositivas que sean fáciles de leer y visualmente agradables, y daremos consejos para hablar en público con más seguridad.",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: Fundamentos de las presentaciones digitales", 
+                                        content: "Objetivo: Aprender la estructura básica (inicio, desarrollo, cierre). Ejemplo: Crearemos el esqueleto de una presentación sobre 'Nuestro Viaje Favorito' con solo 3 diapositivas de títulos.",
+                                        activities: [
+                                            { title: "Analizando Diapositivas", guide: `Hoy vamos a ser críticos de arte, pero con diapositivas.\n\nPaso 1: El formador proyectará dos ejemplos: una diapositiva clara y otra muy cargada.\nPaso 2: Observadlas bien, solo mirar.\nPaso 3: Haremos una lluvia de ideas: ¿Qué tiene la diapositiva buena que nos gusta?.\nPaso 4: ¿Y qué tiene la mala que no nos gusta? Aprender a diferenciar es el primer paso.` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 2: Diseño visual de las presentaciones digitales", 
+                                        content: "Objetivo: Entender la importancia de la tipografía, los colores y las imágenes. Ejemplo: Cogeremos una diapositiva con mucho texto y la transformaremos en una más visual, con una imagen grande y una sola frase.",
+                                        activities: [
+                                            { title: "Elige tu Plantilla de PowerPoint", guide: `Vamos a empezar a diseñar, ¡pero con ayuda!\n\nPaso 1: Abrid el programa de presentaciones (PowerPoint o similar).\nPaso 2: Al crear una nueva, explorad los "Diseños" o "Plantillas" que ofrece.\nPaso 3: Haced clic en varias para ver cómo cambian los colores y las letras.\nPaso 4: Elegid la que más os guste. ¡Ya tenéis la base!` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 3: Comunicación efectiva", 
+                                        content: "Objetivo: Aprender consejos para hablar en público. Ejemplo: Practicaremos en parejas cómo presentarnos en 30 segundos, controlando la postura y el contacto visual.",
+                                        activities: [
+                                            { title: "La Diapositiva de Título", guide: `¡Manos a la obra! Vamos a crear la portada de nuestra presentación.\n\nPaso 1: Con la plantilla elegida, haced clic donde pone "Haga clic para agregar título".\nPaso 2: Escribid un título sobre vuestro hobby.\nPaso 3: Haced clic donde pone "subtítulo" y escribid vuestro nombre.\nPaso 4: ¡Ya está! Habéis creado la diapositiva más importante.` },
+                                            { title: "Presenta tu Idea en 1 Minuto", guide: `Hoy vamos a ser ponentes, ¡pero solo durante un minuto!\n\nPaso 1: El formador os ayudará a proyectar vuestra diapositiva de título.\nPaso 2: Cuando aparezca, os levantaréis y diréis vuestro nombre y el título.\nPaso 3: Podéis añadir una frase, como "Hola, soy Juan y os voy a hablar de mi pasión por las plantas".\nPaso 4: ¡Listo! El resto de compañeros os daremos un fuerte aplauso.` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    courseNumber: 11,
+                    title: "Innova y protege: dominando la propiedad intelectual y la IA",
+                    description: "Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.",
+                    plan: {
+                        description: "¡Bienvenidos al futuro! En este curso nos adentraremos en el fascinante mundo de la Inteligencia Artificial. Aprenderemos qué es y cómo puede ayudarnos en nuestro día a día, desde generar ideas hasta crear imágenes únicas. También hablaremos de la importancia de respetar el trabajo de los demás (propiedad intelectual).",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: La propiedad intelectual en el contenido digital", 
+                                        content: "Objetivo: Entender qué son los derechos de autor. Ejemplo: Veremos una foto con 'copyright' y otra con licencia 'Creative Commons' para entender la diferencia y saber cuál podemos usar.",
+                                        activities: [
+                                            { title: "Generando Ideas con ChatGPT", guide: `Ahora sí, vamos a pedirle ayuda a la IA.\n\nPaso 1: El formador abrirá una herramienta de IA como ChatGPT en la pantalla grande.\nPaso 2: Le escribiremos una petición clara (ej. "Dame 3 ideas de postres fáciles").\nPaso 3: Leeremos juntos las respuestas que nos da la IA.\nPaso 4: Veremos cómo la IA puede ser una fuente de inspiración rapidísima.` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 2: La inteligencia artificial para proyectos", 
+                                        content: "Objetivo: Aprender a crear imágenes a partir de texto con herramientas como Dall-E. Ejemplo: Le daremos a la IA la instrucción: 'Crea una imagen de un gato leyendo un libro en un sillón, estilo dibujo animado' y veremos la magia suceder.",
+                                        activities: [
+                                            { title: "Nuestra Mascota Imaginaria con IA", guide: `¡Hoy vamos a crear vida... digital! Vamos a inventarnos una mascota.<br><br><strong>Paso 1:</strong> El formador usará una IA que crea imágenes.<br><strong>Paso 2:</strong> Le daremos una descripción muy detallada (ej. "Dibuja un elefante pequeño, azul, con alas de mariposa").<br><strong>Paso 3:</strong> Veremos con asombro cómo la IA crea una imagen que no existía.<br><strong>Paso 4:</strong> ¡Guardaremos la imagen! Ya tenemos nuestra mascota única.` },
+                                            { title: "Galería de Arte IA", guide: `Vamos a montar una exposición de arte con nuestras creaciones.<br><br><strong>Paso 1:</strong> Cada uno mostrará al grupo la imagen de su mascota imaginaria.<br><strong>Paso 2:</strong> La explicaremos brevemente.<br><strong>Paso 3:</strong> Haremos una votación a mano alzada para elegir la más divertida.<br><strong>Paso 4:</strong> El objetivo es compartir nuestras creaciones y celebrar la creatividad.` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    courseNumber: 12,
+                    title: "Impulsa tu identidad digital: estrategias para el éxito",
+                    description: "Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.",
+                    plan: {
+                        description: "Este es el curso final donde uniremos todo lo aprendido. El objetivo es definir nuestra 'marca personal' en el mundo digital: qué queremos comunicar y cómo. Aprenderemos a planificar nuestras publicaciones y a interactuar con nuestra comunidad para construir una presencia online auténtica y atractiva.",
+                        days: [
+                            {
+                                title: "DÍA 1",
+                                modules: [
+                                    { 
+                                        title: "Módulo 1: Identidad digital y construcción de una marca personal", 
+                                        content: "Objetivo: Definir nuestra marca personal. Ejemplo: Haremos un ejercicio con papel y boli para listar nuestros gustos y habilidades, y definir nuestro público objetivo (ej. 'otros aficionados a la jardinería').",
+                                        activities: [
+                                            { title: "¿Quién Soy en Digital?", guide: `Hoy vamos a hacer un ejercicio de autoconocimiento. Solo necesitamos papel y boli.<br><br><strong>Paso 1:</strong> Dobla un folio por la mitad.<br><strong>Paso 2:</strong> En un lado, escribe "Cosas que me gustan mucho" y haz una lista.<br><strong>Paso 3:</strong> En el otro lado, escribe "Cosas que se me dan bien" y haz otra lista.<br><strong>Paso 4:</strong> Mira tu lista. Esa es la base de tu "marca personal".` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 2: Rol de influencer digital", 
+                                        content: "Objetivo: Entender qué es un 'influencer' y cómo se colabora. Ejemplo: Analizaremos un post patrocinado de un influencer para identificar cómo se marcan las colaboraciones.",
+                                        activities: [
+                                            { title: "Eligiendo Mis Colores", guide: `Vamos a darle color a nuestra marca personal.<br><br><strong>Paso 1:</strong> El formador os mostrará varias paletas de colores.<br><strong>Paso 2:</strong> Pensad en vuestra personalidad y qué colores os representan.<br><strong>Paso 3:</strong> Elegid dos o tres colores que creáis que os representan.<br><strong>Paso 4:</strong> Apuntadlos. Esos serán "vuestros colores" para dar un estilo personal.` }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                title: "DÍA 2",
+                                modules: [
+                                    { 
+                                        title: "Módulo 3: Estrategias para la creación de contenido atractivo", 
+                                        content: "Objetivo: Aprender a crear publicaciones que interesen. Ejemplo: Cogeremos una foto simple y le añadiremos un texto que haga una pregunta para fomentar la interacción.",
+                                        activities: [
+                                             { title: "Mi Frase de Presentación", guide: `Vamos a resumir quiénes somos en una sola frase. ¡Es todo un reto!<br><br><strong>Paso 1:</strong> Coge el papel con tus listas de gustos y habilidades.<br><strong>Paso 2:</strong> Intenta crear una frase corta que te describa (ej. "Amante de las plantas y aprendiz de repostero").<br><strong>Paso 3:</strong> Escríbela. No te preocupes si no sale perfecta a la primera.<br><strong>Paso 4:</strong> Esta frase es vuestra "biografía" o "bio" de perfil.` }
+                                        ]
+                                    },
+                                    { 
+                                        title: "Módulo 4: Planificación y organización del contenido digital", 
+                                        content: "Objetivo: Aprender a organizar nuestras publicaciones. Ejemplo: Usaremos una plantilla de calendario simple (en papel o Google Calendar) para planificar 3 publicaciones para la próxima semana.",
+                                        activities: [
+                                            { title: "Planificando con Google Calendar", guide: `Vamos a organizar nuestro tiempo como los profesionales.<br><br><strong>Paso 1:</strong> Abrid Google Calendar en el ordenador o el móvil.<br><strong>Paso 2:</strong> Cread un nuevo evento para el próximo lunes titulado "Publicar foto de mi hobby".<br><strong>Paso 3:</strong> Programadlo para una hora concreta, por ejemplo, las 18:00h.<br><strong>Paso 4:</strong> ¡Guardad el evento! Ya tenéis vuestra primera publicación planificada.` }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 }
-            },
-            {
-                courseNumber: 8,
-                title: "Descubre, consume y comparte contenido de calidad",
-                description: "Nos enfocaremos en encontrar contenido interesante en redes como Instagram o YouTube, y a consumirlo de forma segura.",
-                plan: {
-                    description: "En este curso aprenderemos a ser 'exploradores digitales'. El objetivo es saber buscar y encontrar contenido que realmente nos interese y nos aporte valor, diferenciándolo del que no es fiable. Practicaremos en varias plataformas y aprenderemos a consumir información de forma responsable.",
-                    days: [
-                        {
-                            title: "DÍA 1: BÚSQUEDA Y SELECCIÓN",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: Perfiles de Calidad", 
-                                    content: "Objetivo: Aprender a identificar qué hace a un perfil fiable. Ejemplo: Compararemos un perfil de un medio de comunicación conocido con otro de noticias falsas para ver las diferencias.",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "Búsqueda del Tesoro en YouTube", guide: `Hoy seremos detectives buscando tesoros en YouTube.\n\n**Paso 1:** Abrid YouTube...\n**Paso 2:** Usad la lupa (🔍) para buscar algo que os guste (ej. "documentales de animales")...\n**Paso 3:** De la lista de resultados, haced clic en un vídeo que os llame la atención por su título o imagen...\n**Paso 4:** Mirad solo el primer minuto del vídeo. El objetivo es practicar la búsqueda y selección.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: Búsqueda en Redes Sociales", 
-                                    content: "Objetivo: Encontrar contenido de calidad sobre nuestros hobbies. Ejemplo: Haremos una búsqueda guiada en Facebook o Instagram sobre 'recetas de cocina' y guardaremos dos perfiles que parezcan interesantes.",
-                                    activities: [
-                                        { level: "Nivel 2: Interactivo", title: "Guardar para Después", guide: `¿Habéis encontrado un vídeo interesante pero no tenéis tiempo? ¡Hay solución!\n\n**Paso 1:** En YouTube, debajo del vídeo, buscad el botón "Guardar"...\n**Paso 2:** Tocad ese botón. Os dará la opción de guardarlo en la lista "Ver más tarde"...\n**Paso 3:** Id a vuestra 'Biblioteca' en YouTube y comprobad que el vídeo está en la lista 'Ver más tarde'...\n**Paso 4:** ¡Ahora ya sabéis cómo crear vuestra propia lista de programas para cuando queráis!` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: CONSUMO Y RESPONSABILIDAD",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Explorando YouTube", 
-                                    content: "Objetivo: Aprender a navegar y buscar en la plataforma de vídeo más grande. Ejemplo: Buscaremos un vídeo sobre cómo podar un rosal y aprenderemos a usar los controles de pausa y volumen.",
-                                    activities: [
-                                        { level: "Nivel 3: Creador", title: "Mi Lista de Canales Favoritos", guide: `Vamos a organizar nuestros descubrimientos con papel y boli.\n\n**Paso 1:** Coged un papel y un bolígrafo...\n**Paso 2:** Pensad en la actividad de búsqueda. Recordad los canales que más os gustaron...\n**Paso 3:** Escribid el nombre de TRES de esos canales de YouTube...\n**Paso 4:** ¡Ya tenéis vuestra primera "guía de TV" personalizada!` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 4: Consumo Digital Responsable", 
-                                    content: "Objetivo: Entender los riesgos de la desinformación. Ejemplo: Veremos un vídeo corto sobre cómo se crea un bulo y debatiremos en grupo cómo nos protegeríamos de él.",
-                                    activities: [
-                                        { level: "Nivel 4: Conector", title: "Recomendar un Vídeo", guide: `Vamos a compartir un vídeo interesante con el grupo.\n\n**Paso 1:** Id a ese vídeo de YouTube que tanto os gustó...\n**Paso 2:** Buscad el botón "Compartir" (suele ser una flecha)...\n**Paso 3:** Elegid la opción "WhatsApp"...\n**Paso 4:** Enviádselo al grupo del curso con un mensaje como "¡Os recomiendo este vídeo!".` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                courseNumber: 9,
-                title: "Bienestar digital y consumo consciente",
-                description: "Cuidaremos nuestro bienestar digital, aprendiendo a desconectar y a gestionar el 'odio' en redes para una experiencia positiva.",
-                 plan: {
-                    description: "Este curso es fundamental para aprender a cuidarnos en el entorno digital. Hablaremos de la importancia de desconectar del móvil, de cómo gestionar las emociones que nos provocan las redes sociales y de cómo comportarnos de forma cívica y respetuosa online.",
-                    days: [
-                        {
-                            title: "DÍA 1: GESTIÓN PERSONAL Y EMOCIONAL",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: Desconexión Digital", 
-                                    content: "Objetivo: Entender la necesidad de poner límites al uso del móvil. Ejemplo: Activaremos el modo 'No Molestar' de nuestro teléfono durante 15 minutos y comentaremos la sensación.",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "Pacto de Desconexión", guide: `Vamos a hacer un experimento juntos para demostrar que podemos vivir sin el móvil.\n\n**Paso 1:** Todos juntos, vamos a poner nuestro móvil en silencio...\n**Paso 2:** Lo vamos a dejar boca abajo sobre la mesa...\n**Paso 3:** Haremos un pacto de grupo: durante 15 minutos, nadie puede mirar el móvil...\n**Paso 4:** Aprovecharemos ese tiempo para charlar. Al terminar, hablaremos de cómo nos hemos sentido.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: El 'Hating' en el Entorno Digital", 
-                                    content: "Objetivo: Aprender a identificar y gestionar el odio en redes. Ejemplo: Analizaremos un caso práctico de un comentario negativo y veremos las opciones que tenemos: ignorar, bloquear o denunciar.",
-                                    activities: [
-                                        { level: "Nivel 2: Interactivo", title: "Identifica tus Emociones", guide: `Hoy vamos a hablar de sentimientos, algo muy importante en las redes.\n\n**Paso 1:** El formador os mostrará ejemplos de comentarios amables y otros desagradables...\n**Paso 2:** Solo leerlos y pensar: ¿Cómo me haría sentir esto?...\n**Paso 3:** Pondremos en común lo que hemos sentido...\n**Paso 4:** El objetivo es aprender a reconocer los comentarios que nos hacen bien y los que no.` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: CIVISMO Y CONSUMO SALUDABLE",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Netiquetas", 
-                                    content: "Objetivo: Aprender las normas de cortesía online. Ejemplo: Haremos un role-playing sobre cómo responder a un correo electrónico formal y a un mensaje de WhatsApp informal.",
-                                    activities: [
-                                        { level: "Nivel 3: Creador", title: "Mi Mensaje Positivo", guide: `Hoy vamos a repartir un poco de alegría por las redes.\n\n**Paso 1:** Id a una publicación que os guste en cualquier red social...\n**Paso 2:** Tocad en la opción de "Añadir un comentario"...\n**Paso 3:** Escribid algo bonito y sencillo, como "Gracias por compartir"...\n**Paso 4:** Enviadlo. Vuestro mensaje puede alegrarle el día a alguien.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 4: Consumo Sano de Información", 
-                                    content: "Objetivo: Aprender a consumir noticias sin generar ansiedad. Ejemplo: Crearemos una 'dieta informativa' personal, decidiendo consultar noticias solo una vez al día en un medio de confianza.",
-                                    activities: [
-                                        { level: "Nivel 4: Conector", title: "El Botón de Silenciar", guide: `A veces, necesitamos un poco de paz. Vamos a aprender a conseguirla.\n\n**Paso 1:** Abrid vuestro WhatsApp y buscad un grupo con muchas notificaciones...\n**Paso 2:** Mantened pulsado sobre el nombre del grupo...\n**Paso 3:** Buscad un icono de un altavoz tachado (🔇) y tocadlo...\n**Paso 4:** ¡Listo! Habéis silenciado las notificaciones. Vosotros tenéis el control.` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                courseNumber: 10,
-                title: "Domina el arte de las presentaciones",
-                description: "Convertiremos nuestras ideas en presentaciones visuales impactantes, mejorando cómo comunicamos y exponemos.",
-                 plan: {
-                    description: "En este curso aprenderemos a comunicar nuestras ideas de forma clara y atractiva. Nos centraremos en cómo estructurar una presentación, cómo diseñar diapositivas que sean fáciles de leer y visualmente agradables, y daremos consejos para hablar en público con más seguridad.",
-                    days: [
-                        {
-                            title: "DÍA 1: ESTRUCTURA Y DISEÑO",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: Fundamentos de las Presentaciones", 
-                                    content: "Objetivo: Aprender la estructura básica (inicio, desarrollo, cierre). Ejemplo: Crearemos el esqueleto de una presentación sobre 'Nuestro Viaje Favorito' con solo 3 diapositivas de títulos.",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "Analizando Diapositivas", guide: `Hoy vamos a ser críticos de arte, pero con diapositivas.\n\n**Paso 1:** El formador proyectará dos ejemplos: una diapositiva clara y otra muy cargada...\n**Paso 2:** Observadlas bien, solo mirar...\n**Paso 3:** Haremos una lluvia de ideas: ¿Qué tiene la diapositiva buena que nos gusta?...\n**Paso 4:** ¿Y qué tiene la mala que no nos gusta? Aprender a diferenciar es el primer paso.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: Diseño Visual de Diapositivas", 
-                                    content: "Objetivo: Entender la importancia de la tipografía, los colores y las imágenes. Ejemplo: Cogeremos una diapositiva con mucho texto y la transformaremos en una más visual, con una imagen grande y una sola frase.",
-                                    activities: [
-                                        { level: "Nivel 2: Interactivo", title: "Elige tu Plantilla de PowerPoint", guide: `Vamos a empezar a diseñar, ¡pero con ayuda!\n\n**Paso 1:** Abrid el programa de presentaciones (PowerPoint o similar)...\n**Paso 2:** Al crear una nueva, explorad los "Diseños" o "Plantillas" que ofrece...\n**Paso 3:** Haced clic en varias para ver cómo cambian los colores y las letras...\n**Paso 4:** Elegid la que más os guste. ¡Ya tenéis la base!` },
-                                        { level: "Nivel 3: Creador", title: "La Diapositiva de Título", guide: `¡Manos a la obra! Vamos a crear la portada de nuestra presentación.\n\n**Paso 1:** Con la plantilla elegida, haced clic donde pone "Haga clic para agregar título"...\n**Paso 2:** Escribid un título sobre vuestro hobby...\n**Paso 3:** Haced clic donde pone "subtítulo" y escribid vuestro nombre...\n**Paso 4:** ¡Ya está! Habéis creado la diapositiva más importante.` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: COMUNICACIÓN Y PRÁCTICA",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Comunicación Efectiva", 
-                                    content: "Objetivo: Aprender consejos para hablar en público. Ejemplo: Practicaremos en parejas cómo presentarnos en 30 segundos, controlando la postura y el contacto visual.",
-                                    activities: [
-                                        { level: "Nivel 4: Conector", title: "Presenta tu Idea en 1 Minuto", guide: `Hoy vamos a ser ponentes, ¡pero solo durante un minuto!\n\n**Paso 1:** El formador os ayudará a proyectar vuestra diapositiva de título...\n**Paso 2:** Cuando aparezca, os levantaréis y diréis vuestro nombre y el título...\n**Paso 3:** Podéis añadir una frase, como "Hola, soy Juan y os voy a hablar de mi pasión por las plantas"...\n**Paso 4:** ¡Listo! El resto de compañeros os daremos un fuerte aplauso.` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                courseNumber: 11,
-                title: "Innova y protege: dominando la propiedad intelectual y la IA",
-                description: "Exploraremos el futuro usando la Inteligencia Artificial (IA) para generar ideas y crear imágenes, respetando la propiedad intelectual.",
-                plan: {
-                    description: "¡Bienvenidos al futuro! En este curso nos adentraremos en el fascinante mundo de la Inteligencia Artificial. Aprenderemos qué es y cómo puede ayudarnos en nuestro día a día, desde generar ideas hasta crear imágenes únicas. También hablaremos de la importancia de respetar el trabajo de los demás (propiedad intelectual).",
-                    days: [
-                        {
-                            title: "DÍA 1: PROPIEDAD INTELECTUAL E IDEAS CON IA",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: La Propiedad Intelectual", 
-                                    content: "Objetivo: Entender qué son los derechos de autor. Ejemplo: Veremos una foto con 'copyright' y otra con licencia 'Creative Commons' para entender la diferencia y saber cuál podemos usar.",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "¿Qué le pido a la IA?", guide: `Hoy vamos a conocer a un "genio" digital. Pero primero, tenemos que pensar qué le vamos a pedir.\n\n**Paso 1:** En grupo, haremos una lluvia de ideas sin usar el ordenador...\n**Paso 2:** Pensemos en preguntas curiosas para hacerle a una IA (ej. "Escribe un poema sobre un gato astronauta")...\n**Paso 3:** Apuntaremos las mejores ideas en la pizarra...\n**Paso 4:** El objetivo es entender que a la IA hay que pedirle cosas concretas.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: La IA para Proyectos (ChatGPT)", 
-                                    content: "Objetivo: Usar ChatGPT para generar ideas. Ejemplo: Le pediremos a ChatGPT: 'Dame 5 ideas para decorar un balcón con poco dinero' y analizaremos las respuestas.",
-                                    activities: [
-                                        { level: "Nivel 2: Interactivo", title: "Generando Ideas con ChatGPT", guide: `Ahora sí, vamos a pedirle ayuda a la IA.\n\n**Paso 1:** El formador abrirá una herramienta de IA como ChatGPT en la pantalla grande...\n**Paso 2:** Le escribiremos una petición clara (ej. "Dame 3 ideas de postres fáciles")...\n**Paso 3:** Leeremos juntos las respuestas que nos da la IA...\n**Paso 4:** Veremos cómo la IA puede ser una fuente de inspiración rapidísima.` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: CREACIÓN DE IMÁGENES CON IA",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Imágenes con Dall-E", 
-                                    content: "Objetivo: Aprender a crear imágenes a partir de texto. Ejemplo: Le daremos a la IA la instrucción: 'Crea una imagen de un gato leyendo un libro en un sillón, estilo dibujo animado' y veremos la magia suceder.",
-                                    activities: [
-                                        { level: "Nivel 3: Creador", title: "Nuestra Mascota Imaginaria con IA", guide: `¡Hoy vamos a crear vida... digital! Vamos a inventarnos una mascota.\n\n**Paso 1:** El formador usará una IA que crea imágenes...\n**Paso 2:** Le daremos una descripción muy detallada (ej. "Dibuja un elefante pequeño, azul, con alas de mariposa")...\n**Paso 3:** Veremos con asombro cómo la IA crea una imagen que no existía...\n**Paso 4:** ¡Guardaremos la imagen! Ya tenemos nuestra mascota única.` },
-                                        { level: "Nivel 4: Conector", title: "Galería de Arte IA", guide: `Vamos a montar una exposición de arte con nuestras creaciones.\n\n**Paso 1:** Cada uno mostrará al grupo la imagen de su mascota imaginaria...\n**Paso 2:** La explicaremos brevemente...\n**Paso 3:** Haremos una votación a mano alzada para elegir la más divertida...\n**Paso 4:** El objetivo es compartir nuestras creaciones y celebrar la creatividad.` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                courseNumber: 12,
-                title: "Impulsa tu identidad digital: estrategias para el éxito",
-                description: "Daremos el paso final para construir nuestra marca personal, planificando contenido y definiendo nuestro estilo como creadores.",
-                plan: {
-                    description: "Este es el curso final donde uniremos todo lo aprendido. El objetivo es definir nuestra 'marca personal' en el mundo digital: qué queremos comunicar y cómo. Aprenderemos a planificar nuestras publicaciones y a interactuar con nuestra comunidad para construir una presencia online auténtica y atractiva.",
-                    days: [
-                        {
-                            title: "DÍA 1: IDENTIDAD Y ESTRATEGIA",
-                            modules: [
-                                { 
-                                    title: "Módulo 1: Identidad Digital y Marca Personal", 
-                                    content: "Objetivo: Definir nuestra marca personal. Ejemplo: Haremos un ejercicio con papel y boli para listar nuestros gustos y habilidades, y definir nuestro público objetivo (ej. 'otros aficionados a la jardinería').",
-                                    activities: [
-                                        { level: "Nivel 1: Explorador", title: "¿Quién Soy en Digital?", guide: `Hoy vamos a hacer un ejercicio de autoconocimiento. Solo necesitamos papel y boli.\n\n**Paso 1:** Dobla un folio por la mitad...\n**Paso 2:** En un lado, escribe "Cosas que me gustan mucho" y haz una lista...\n**Paso 3:** En el otro lado, escribe "Cosas que se me dan bien" y haz otra lista...\n**Paso 4:** Mira tu lista. Esa es la base de tu "marca personal".` },
-                                        { level: "Nivel 2: Interactivo", title: "Eligiendo Mis Colores", guide: `Vamos a darle color a nuestra marca personal.\n\n**Paso 1:** El formador os mostrará varias paletas de colores...\n**Paso 2:** Pensad en vuestra personalidad y qué colores os representan...\n**Paso 3:** Elegid dos o tres colores que creáis que os representan...\n**Paso 4:** Apuntadlos. Esos serán "vuestros colores" para dar un estilo personal.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 2: Estrategias para Contenido Atractivo", 
-                                    content: "Objetivo: Aprender a crear publicaciones que interesen. Ejemplo: Cogeremos una foto simple y le añadiremos un texto que haga una pregunta para fomentar la interacción.",
-                                    activities: [
-                                         { level: "Nivel 3: Creador", title: "Mi Frase de Presentación", guide: `Vamos a resumir quiénes somos en una sola frase. ¡Es todo un reto!\n\n**Paso 1:** Coge el papel con tus listas de gustos y habilidades...\n**Paso 2:** Intenta crear una frase corta que te describa (ej. "Amante de las plantas y aprendiz de repostero")...\n**Paso 3:** Escríbela. No te preocupes si no sale perfecta a la primera...\n**Paso 4:** Esta frase es vuestra "biografía" o "bio" de perfil.` }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            title: "DÍA 2: PLANIFICACIÓN Y ROL DEL INFLUENCER",
-                            modules: [
-                                { 
-                                    title: "Módulo 3: Planificación y Organización del Contenido", 
-                                    content: "Objetivo: Aprender a organizar nuestras publicaciones. Ejemplo: Usaremos una plantilla de calendario simple (en papel o Google Calendar) para planificar 3 publicaciones para la próxima semana.",
-                                    activities: [
-                                        { level: "Nivel 4: Conector", title: "Planificando con Google Calendar", guide: `Vamos a organizar nuestro tiempo como los profesionales.\n\n**Paso 1:** Abrid Google Calendar en el ordenador o el móvil...\n**Paso 2:** Cread un nuevo evento para el próximo lunes titulado "Publicar foto de mi hobby"...\n**Paso 3:** Programadlo para una hora concreta, por ejemplo, las 18:00h...\n**Paso 4:** ¡Guardad el evento! Ya tenéis vuestra primera publicación planificada.` }
-                                    ]
-                                },
-                                { 
-                                    title: "Módulo 4: Rol del Influencer Digital", 
-                                    content: "Objetivo: Entender qué es un 'influencer' y cómo se colabora. Ejemplo: Analizaremos un post patrocinado de un influencer para identificar cómo se marcan las colaboraciones.",
-                                    activities: [
-                                        { level: "Nivel 4: Conector", title: "Feedback de Marca Personal", guide: `El último paso es compartir y ayudarnos mutuamente.\n\n**Paso 1:** En parejas, compartiremos las listas que hicimos en la primera actividad...\n**Paso 2:** El compañero nos dará su opinión amable sobre qué tema le parece más interesante para que compartamos online...\n**Paso 3:** Escucharemos las sugerencias y daremos las gracias...\n**Paso 4:** El objetivo es ayudarnos a encontrar nuestra voz y nuestro tema principal.` }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
-        ];
-        
-        function createCourseHTML(course) {
-            const modulesHTML = course.plan.days.map(day => {
-                const dayModules = day.modules.map(module => {
-                    const activitiesHTML = module.activities.map(activity => `
-                        <div class="bg-white p-3 rounded-md shadow-sm mt-3">
-                            <button class="activity-toggle w-full text-left font-bold text-gray-800 flex justify-between items-center">
-                                <span>${activity.level}: ${activity.title}</span>
-                                <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="guide-container">
-                                <p class="guide-text mt-2 pt-2 border-t text-gray-700">${activity.guide}</p>
+            ];
+            
+            function createCourseHTML(course) {
+                const modulesHTML = course.plan.days.map(day => {
+                    const dayModules = day.modules.map(module => {
+                        const activitiesHTML = module.activities.map(activity => `
+                            <div class="activity-block">
+                                <h5 class="font-bold text-gray-800">${activity.title}</h5>
+                                <p class="guide-text mt-2 text-gray-700">${activity.guide}</p>
                             </div>
-                        </div>
-                    `).join('');
+                        `).join('');
 
-                    return `
-                        <div class="bg-gray-50 p-3 rounded-md mt-2">
-                            <button class="module-toggle w-full text-left font-semibold text-gray-700 flex justify-between items-center">
-                                <span>${module.title}</span>
-                                <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="module-content-container">
-                                <p class="module-text mt-2 pt-2 border-t text-sm text-gray-600">${module.content}</p>
-                                <h5 class="text-sm font-bold mt-4 text-gray-600">Actividades Propuestas:</h5>
-                                ${activitiesHTML}
+                        return `
+                            <div class="bg-gray-50 p-4 rounded-md mt-4 border">
+                                <h5 class="font-semibold text-gray-800">${module.title}</h5>
+                                <p class="mt-2 text-sm text-gray-600">${module.content}</p>
+                                <div class="mt-4">
+                                    ${activitiesHTML}
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }).join('');
+                    return `<h4>${day.title}</h4>${dayModules}`;
                 }).join('');
-                return `<h4>${day.title}</h4>${dayModules}`;
-            }).join('');
 
-            return `
-                <div class="mb-10 pl-8 relative timeline-item">
-                    <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
-                    <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md">${course.description}</p>
-                    
-                    <button class="details-toggle mt-4 bg-blue-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors w-full text-left flex justify-between items-center">
-                        <span>Ver Plan de Estudios y Actividades</span>
-                        <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                    </button>
-                    <div class="details-container mt-2 bg-white p-6 rounded-lg shadow-inner border">
-                        <div class="details-content">
-                            <h3>Descripción Extensa del Curso</h3>
-                            <p>${course.plan.description}</p>
-                            ${modulesHTML}
+                return `
+                    <div class="mb-10 pl-8 relative timeline-item">
+                        <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
+                        <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md">${course.description}</p>
+                        
+                        <button class="details-toggle mt-4 bg-blue-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors w-full text-left flex justify-between items-center">
+                            <span>Ver Plan de Estudios y Actividades</span>
+                            <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                        </button>
+                        <div class="details-container mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                            <div class="details-content">
+                                <h3>Descripción</h3>
+                                <p>${course.plan.description}</p>
+                                ${modulesHTML}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        }
-
-        function initializeAccordions() {
-            function toggleAccordion(button, container) {
-                const icon = button.querySelector('svg');
-                if (container.style.maxHeight && container.style.maxHeight !== '0px') {
-                    container.style.maxHeight = null;
-                    if (icon) icon.style.transform = 'rotate(0deg)';
-                } else {
-                    container.style.maxHeight = container.scrollHeight + "px";
-                    if (icon) icon.style.transform = 'rotate(180deg)';
-                }
+                `;
             }
 
-            document.querySelectorAll('.details-toggle').forEach(button => {
-                button.addEventListener('click', (e) => toggleAccordion(e.currentTarget, e.currentTarget.nextElementSibling));
-            });
-
-            document.querySelectorAll('.module-toggle, .activity-toggle').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const clickedButton = e.currentTarget;
-                    const contentContainer = clickedButton.nextElementSibling;
-                    const parentContainer = clickedButton.closest('.details-container, .module-content-container');
-                    
-                    const isOpening = !contentContainer.style.maxHeight || contentContainer.style.maxHeight === '0px';
-
-                    // Close siblings
-                    const siblingGroup = clickedButton.parentElement.parentElement.querySelectorAll(clickedButton.classList.contains('module-toggle') ? '.module-content-container' : '.guide-container');
-                    siblingGroup.forEach(otherContent => {
-                        if (otherContent !== contentContainer) {
-                            otherContent.style.maxHeight = null;
-                            const otherIcon = otherContent.previousElementSibling.querySelector('svg');
-                            if(otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+            function initializeAccordions() {
+                document.querySelectorAll('.details-toggle').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const container = e.currentTarget.nextElementSibling;
+                        const icon = e.currentTarget.querySelector('svg');
+                        if (container.style.maxHeight && container.style.maxHeight !== '0px') {
+                            container.style.maxHeight = null;
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                        } else {
+                            container.style.maxHeight = container.scrollHeight + "px";
+                            if (icon) icon.style.transform = 'rotate(180deg)';
                         }
                     });
-
-                    // Toggle clicked
-                    toggleAccordion(clickedButton, contentContainer);
-
-                    // Recalculate parent height(s)
-                    setTimeout(() => {
-                        let currentParent = parentContainer;
-                        while(currentParent && currentParent.style.maxHeight && currentParent.style.maxHeight !== '0px') {
-                            currentParent.style.maxHeight = currentParent.scrollHeight + "px";
-                            currentParent = currentParent.parentElement.closest('.details-container, .module-content-container');
-                        }
-                    }, 500);
                 });
-            });
-        }
-        
-        const coursesContainer = document.getElementById('courses-container');
-        coursesContainer.innerHTML = coursesData.map(createCourseHTML).join('');
-        initializeAccordions();
+            }
+            
+            const coursesContainer = document.getElementById('courses-container');
+            coursesContainer.innerHTML = coursesData.map(createCourseHTML).join('');
+            initializeAccordions();
+        });
     </script>
 
 </body>
