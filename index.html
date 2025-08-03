@@ -144,7 +144,7 @@
                                 modules: [
                                     { 
                                         title: "Módulo 1: Exploración del contenido multimedia en redes sociales", 
-                                        content: "Objetivo: Entender qué son y para qué sirven las redes sociales (Facebook, Instagram, etc.) y sus formatos (post, historia). Ejemplo: Veremos perfiles de cocina y jardinería para identificar los diferentes tipos de publicaciones.",
+                                        content: "Objetivo: Entender qué son y para qué sirven las redes sociales (Facebook, Instagram, YouTube, TikTok, LinkedIn, etc.) y sus formatos (post, historia). Ejemplo: Veremos perfiles de cocina y jardinería para identificar los diferentes tipos de publicaciones.",
                                         activities: [
                                             { title: "Explorando los Estados de WhatsApp", guide: `¡Vamos a ser detectives en nuestro propio WhatsApp!<br><br><strong>Paso 1:</strong> Abrid WhatsApp y pulsad en la pestaña 'Novedades' (antes se llamaba 'Estados').<br><strong>Paso 2:</strong> Veréis unos círculos con las fotos de vuestros contactos. Esos son sus 'Estados' o 'Historias'. Son fotos o vídeos que duran solo 24 horas.<br><strong>Paso 3:</strong> Pulsad en uno de ellos para verlo. Podéis pasar al siguiente pulsando en el lado derecho de la pantalla.<br><strong>Paso 4:</strong> ¡Listo! Habéis explorado el formato 'Historia' en un entorno que ya conocéis. Es el primer paso para entender cómo funciona.` }
                                         ]
@@ -389,6 +389,54 @@
                     }
                 }
             ];
+
+            // --- FUNCIÓN PARA AÑADIR LOGOS ---
+            function addBrandLogos(text) {
+                const brands = {
+                    'WhatsApp': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png',
+                    'Instagram': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/240px-Instagram_icon.png',
+                    'Facebook': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/240px-Facebook_f_logo_%282019%29.svg.png',
+                    'YouTube': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/240px-YouTube_full-color_icon_%282017%29.svg.png',
+                    'TikTok': 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/TikTok_logo.svg/240px-TikTok_logo.svg.png',
+                    'LinkedIn': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/240px-LinkedIn_icon.svg.png',
+                    'PowerPoint': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg/240px-Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg.png',
+                    'Google Calendar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/240px-Google_Calendar_icon_%282020%29.svg.png',
+                    'ChatGPT': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/240px-ChatGPT_logo.svg.png',
+                    'Dall-E': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/DALL-E_logo.svg/240px-DALL-E_logo.svg.png'
+                };
+
+                let processedText = text;
+                for (const brand in brands) {
+                    const regex = new RegExp(`\\b(${brand})\\b`, 'g');
+                    const replacement = `$1 <img src="${brands[brand]}" alt="Logo de ${brand}" class="inline h-5 w-auto ml-1 align-middle">`;
+                    processedText = processedText.replace(regex, replacement);
+                }
+                return processedText;
+            }
+
+            // --- PROCESADO DE DATOS ---
+            // Recorremos todos los textos y añadimos los logos antes de generar el HTML.
+            coursesData.forEach(course => {
+                course.description = addBrandLogos(course.description);
+                if (course.plan) {
+                    course.plan.description = addBrandLogos(course.plan.description);
+                    if (course.plan.days) {
+                        course.plan.days.forEach(day => {
+                            if (day.modules) {
+                                day.modules.forEach(module => {
+                                    module.content = addBrandLogos(module.content);
+                                    if (module.activities) {
+                                        module.activities.forEach(activity => {
+                                            activity.guide = addBrandLogos(activity.guide);
+                                            activity.title = addBrandLogos(activity.title);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
             
             // --- GENERACIÓN DE HTML ---
             function createCourseHTML(course) {
