@@ -452,10 +452,11 @@
                                 <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
                             <div class="collapsible-content details-container">
-                                <div class="inner-content mt-2 bg-white p-6 rounded-lg shadow-inner border">
-                                    <h3>Plan de Estudios</h3>
-                                    <p>${course.plan.description}</p>
-                                    ${planHTML}
+                                <div class="inner-content">
+                                    <div class="mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                                        <p>${course.plan.description}</p>
+                                        ${planHTML}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -467,9 +468,10 @@
                                 <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
                             <div class="collapsible-content details-container">
-                                <div class="inner-content mt-2 bg-white p-6 rounded-lg shadow-inner border">
-                                    <h3>Actividades Propuestas</h3>
-                                    ${activitiesHTML}
+                                <div class="inner-content">
+                                    <div class="mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                                        ${activitiesHTML}
+                                    </div>
                                 </div>
                             </div>
                         </div>` : ''}
