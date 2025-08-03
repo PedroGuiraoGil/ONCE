@@ -24,11 +24,20 @@
             background-color: white;
             border: 4px solid #3b82f6; /* blue-500 */
         }
-        .details-container, .module-content-container, .guide-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+        /* --- NUEVO SISTEMA DE ACORDEÓN CON CSS GRID --- */
+        .collapsible-content {
+            display: grid;
+            grid-template-rows: 0fr; /* Inicia colapsado */
+            transition: grid-template-rows 0.5s ease-in-out;
         }
+        .collapsible-content.open {
+            grid-template-rows: 1fr; /* Se expande para mostrar el contenido */
+        }
+        .collapsible-content > .inner-content {
+            overflow: hidden;
+        }
+        /* --- FIN DEL NUEVO SISTEMA --- */
+
         .details-content h3 {
             font-size: 1.25rem; /* text-xl */
             font-weight: 700; /* font-bold */
@@ -65,10 +74,6 @@
             padding: 1rem;
             margin-top: 1rem;
             border-radius: 0.25rem;
-        }
-        .guide-container {
-            padding-left: 1rem;
-            padding-right: 1rem;
         }
         .guide-text {
             padding-top: 0.75rem;
@@ -127,9 +132,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- DATA ---
-            // The course data is stored in this array of objects.
-            // This makes it easy to update and manage the content without touching the HTML structure.
+            // --- DATOS ---
             const coursesData = [
                 {
                     courseNumber: 7,
@@ -389,118 +392,140 @@
                 }
             ];
             
-            // --- HTML GENERATION ---
-            // This function builds the HTML for a single course from a course object.
+            // --- GENERACIÓN DE HTML ---
             function createCourseHTML(course) {
-                const daysHTML = course.plan.days.map(day => {
-                    const dayModules = day.modules.map(module => {
-                        const activitiesHTML = module.activities.map(activity => `
+                // Genera el HTML para el Plan de Estudios (solo módulos)
+                const planHTML = course.plan.days.map(day => {
+                    const dayModules = day.modules.map(module => `
+                        <div class="bg-slate-50 p-3 rounded-lg mt-2 border border-slate-200">
+                            <button class="module-toggle w-full text-left font-semibold text-blue-800 flex justify-between items-center p-2">
+                                <span>${module.title}</span>
+                                <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="collapsible-content module-content-container">
+                                <div class="inner-content pl-2 pr-2">
+                                    <p class="module-text mt-2 pt-2 border-t text-sm text-gray-600">${module.content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                    return `<h4>${day.title}</h4>${dayModules}`;
+                }).join('');
+
+                // Genera el HTML para las Actividades (agrupadas por módulo)
+                const activitiesHTML = course.plan.days.map(day => {
+                    const dayActivitiesArray = day.modules.map(module => {
+                        if (!module.activities || module.activities.length === 0) return '';
+                        
+                        const activitiesList = module.activities.map(activity => `
                             <div class="bg-white p-3 rounded-md shadow-sm mt-3">
                                 <button class="activity-toggle w-full text-left font-bold text-gray-800 flex justify-between items-center p-2">
                                     <span>${activity.title}</span>
                                     <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                                 </button>
-                                <div class="guide-container">
-                                    <p class="guide-text text-gray-700 pb-8">${activity.guide}</p>
+                                <div class="collapsible-content guide-container">
+                                    <div class="inner-content">
+                                        <p class="guide-text text-gray-700 pb-8">${activity.guide}</p>
+                                    </div>
                                 </div>
                             </div>
                         `).join('');
 
-                        return `
-                            <div class="bg-slate-50 p-3 rounded-lg mt-2 border border-slate-200">
-                                <button class="module-toggle w-full text-left font-semibold text-blue-800 flex justify-between items-center p-2">
-                                    <span>${module.title}</span>
-                                    <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                                </button>
-                                <div class="module-content-container pl-2 pr-2">
-                                    <p class="module-text mt-2 pt-2 border-t text-sm text-gray-600">${module.content}</p>
-                                    <h5 class="text-sm font-bold mt-4 text-gray-600">Actividades Propuestas:</h5>
-                                    ${activitiesHTML}
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    return `<h4>${day.title}</h4>${dayModules}`;
+                        return `<h5 class="text-base font-bold text-blue-800 mt-4">Actividades del Módulo: ${module.title}</h5>${activitiesList}`;
+                    });
+                    
+                    if (dayActivitiesArray.every(a => a === '')) return '';
+
+                    const dayActivitiesString = dayActivitiesArray.join('');
+                    return `<h4>${day.title}</h4>${dayActivitiesString}`;
                 }).join('');
 
+                // Estructura final del curso con las dos secciones separadas
                 return `
                     <div class="mb-10 pl-8 relative timeline-item">
                         <h3 class="text-2xl font-bold text-blue-600">${`Curso ${course.courseNumber}: ${course.title}`}</h3>
                         <p class="text-gray-700 mt-2 bg-blue-50 p-4 rounded-md border border-blue-100">${course.description}</p>
                         
-                        <button class="details-toggle mt-4 bg-blue-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors w-full text-left flex justify-between items-center">
-                            <span>Ver Plan de Estudios y Actividades</span>
-                            <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                        </button>
-                        <div class="details-container mt-2 bg-white p-6 rounded-lg shadow-inner border">
-                            <div class="details-content">
-                                <h3>Plan de Estudios</h3>
-                                <p>${course.plan.description}</p>
-                                ${daysHTML}
+                        <div class="mt-4">
+                            <button class="details-toggle w-full bg-blue-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 transition-colors flex justify-between items-center">
+                                <span>Ver Plan de Estudios</span>
+                                <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="collapsible-content details-container">
+                                <div class="inner-content mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                                    <h3>Plan de Estudios</h3>
+                                    <p>${course.plan.description}</p>
+                                    ${planHTML}
+                                </div>
                             </div>
                         </div>
+
+                        ${activitiesHTML ? `
+                        <div class="mt-2">
+                            <button class="details-toggle w-full bg-green-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-900 transition-colors flex justify-between items-center">
+                                <span>Ver Actividades Propuestas</span>
+                                <svg class="w-4 h-4 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="collapsible-content details-container">
+                                <div class="inner-content mt-2 bg-white p-6 rounded-lg shadow-inner border">
+                                    <h3>Actividades Propuestas</h3>
+                                    ${activitiesHTML}
+                                </div>
+                            </div>
+                        </div>` : ''}
                     </div>
                 `;
             }
 
-            // --- ACCORDION LOGIC ---
-            // This function initializes all the accordion functionality.
+            // --- LÓGICA DEL ACORDEÓN (SOLUCIÓN CON CSS GRID) ---
             function initializeAccordions() {
                 const container = document.getElementById('courses-container');
 
                 container.addEventListener('click', function(event) {
-                    const button = event.target.closest('button.details-toggle, button.module-toggle, button.activity-toggle');
-                    if (!button) return;
+                    const button = event.target.closest('button');
+                    if (!button) return; // Si no es un botón, no hacemos nada.
+
+                    // Solo reaccionamos a los botones de nuestro acordeón
+                    if (!button.matches('.details-toggle, .module-toggle, .activity-toggle')) {
+                        return;
+                    }
 
                     const content = button.nextElementSibling;
                     const icon = button.querySelector('svg');
-                    const isOpening = content.style.maxHeight === '0px' || !content.style.maxHeight;
+                    
+                    // Comprobamos si el elemento que hemos pulsado ya estaba abierto
+                    const isAlreadyOpen = content.classList.contains('open');
 
-                    // --- Close Siblings ---
+                    // Cerramos todos los elementos al mismo nivel (hermanos)
                     const parentElement = button.parentElement;
                     if (parentElement.parentElement) {
-                        const siblings = Array.from(parentElement.parentElement.children);
-                        siblings.forEach(sibling => {
+                        const siblings = parentElement.parentElement.children;
+                        for (const sibling of siblings) {
                             if (sibling !== parentElement) {
-                                const siblingContent = sibling.querySelector('.details-container, .module-content-container, .guide-container');
-                                if (siblingContent && siblingContent.style.maxHeight !== '0px') {
-                                    siblingContent.style.maxHeight = null;
+                                const siblingContent = sibling.querySelector('.collapsible-content');
+                                if (siblingContent && siblingContent.classList.contains('open')) {
+                                    siblingContent.classList.remove('open');
                                     const siblingIcon = sibling.querySelector('svg');
                                     if (siblingIcon) siblingIcon.style.transform = 'rotate(0deg)';
                                 }
                             }
-                        });
+                        }
                     }
 
-                    // --- Toggle Clicked Item ---
-                    if (isOpening) {
-                        content.style.maxHeight = content.scrollHeight + 'px';
+                    // Abrimos o cerramos el elemento actual
+                    if (!isAlreadyOpen) {
+                        content.classList.add('open');
                         if (icon) icon.style.transform = 'rotate(180deg)';
                     } else {
-                        content.style.maxHeight = null;
+                        content.classList.remove('open');
                         if (icon) icon.style.transform = 'rotate(0deg)';
-                    }
-
-                    // --- Update Parent Heights ---
-                    // This function bubbles up and resizes all open parent containers
-                    // to fit the new content.
-                    let parent = button.parentElement.closest('.details-container, .module-content-container');
-                    while (parent) {
-                        if (parent.style.maxHeight && parent.style.maxHeight !== '0px') {
-                            parent.style.maxHeight = parent.scrollHeight + 'px';
-                        }
-                        parent = parent.parentElement.closest('.details-container, .module-content-container');
                     }
                 });
             }
             
-            // --- INITIALIZATION ---
-            // This is where the script starts.
-            // 1. Get the container element.
+            // --- INICIALIZACIÓN ---
             const coursesContainer = document.getElementById('courses-container');
-            // 2. Generate the HTML for all courses and inject it into the container.
             coursesContainer.innerHTML = coursesData.map(createCourseHTML).join('');
-            // 3. Set up all the interactive accordion event listeners.
             initializeAccordions();
         });
     </script>
